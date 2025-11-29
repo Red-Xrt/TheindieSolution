@@ -10,252 +10,85 @@
     <UserControl.Styles>
         <Style Selector="Grid.WizardStep[IsVisible=True]">
             <Style.Animations>
-                <Animation Duration="0:0:0.4" Easing="CubicEaseOut" FillMode="Forward">
-                    <KeyFrame KeyTime="0:0:0">
-                        <Setter Property="Opacity" Value="0"/>
-                        <Setter Property="TranslateTransform.Y" Value="20"/>
-                    </KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.4">
-                        <Setter Property="Opacity" Value="1"/>
-                        <Setter Property="TranslateTransform.Y" Value="0"/>
-                    </KeyFrame>
+                <Animation Duration="0:0:0.3" Easing="CubicEaseOut" FillMode="Forward">
+                    <KeyFrame KeyTime="0:0:0"><Setter Property="Opacity" Value="0"/><Setter Property="TranslateTransform.Y" Value="20"/></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.3"><Setter Property="Opacity" Value="1"/><Setter Property="TranslateTransform.Y" Value="0"/></KeyFrame>
                 </Animation>
             </Style.Animations>
         </Style>
-
-        <Style Selector="Border.ProgressBarActive">
-            <Style.Animations>
-                <Animation Duration="0:0:1.5" IterationCount="Infinite">
-                    <KeyFrame KeyTime="0:0:0"><Setter Property="Opacity" Value="0.8"/></KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.75"><Setter Property="Opacity" Value="1"/></KeyFrame>
-                    <KeyFrame KeyTime="0:0:1.5"><Setter Property="Opacity" Value="0.8"/></KeyFrame>
-                </Animation>
-            </Style.Animations>
-        </Style>
-
-        <Style Selector="Border.SuccessCircle[IsVisible=True]">
-            <Style.Animations>
-                <Animation Duration="0:0:0.6" Easing="BackEaseOut">
-                    <KeyFrame KeyTime="0:0:0">
-                        <Setter Property="ScaleTransform.ScaleX" Value="0"/>
-                        <Setter Property="ScaleTransform.ScaleY" Value="0"/>
-                        <Setter Property="Opacity" Value="0"/>
-                    </KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.6">
-                        <Setter Property="ScaleTransform.ScaleX" Value="1"/>
-                        <Setter Property="ScaleTransform.ScaleY" Value="1"/>
-                        <Setter Property="Opacity" Value="1"/>
-                    </KeyFrame>
-                </Animation>
-            </Style.Animations>
-        </Style>
-
-        <Style Selector="Border.StepDot">
-            <Setter Property="Width" Value="8"/>
-            <Setter Property="Height" Value="8"/>
-            <Setter Property="CornerRadius" Value="4"/>
-            <Setter Property="Background" Value="#30FFFFFF"/>
-            <Setter Property="Margin" Value="6"/>
-            <Setter Property="Transitions">
-                <Transitions>
-                    <BrushTransition Property="Background" Duration="0:0:0.3"/>
-                    <DoubleTransition Property="Width" Duration="0:0:0.3"/>
-                </Transitions>
-            </Setter>
-        </Style>
-        <Style Selector="Border.StepDot.Active">
-            <Setter Property="Background" Value="{StaticResource AccentRed}"/>
-            <Setter Property="Width" Value="24"/>
-            <Setter Property="BoxShadow" Value="0 0 10 0 #60FF1F2F"/>
-        </Style>
-
-        <Style Selector="Button.GhostBtn">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#AAAAAA"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="15,8"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Transitions"><Transitions><BrushTransition Property="Background" Duration="0:0:0.2"/></Transitions></Setter>
-        </Style>
-        <Style Selector="Button.GhostBtn:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#10FFFFFF"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style Selector="Button.CloseBtn">
-            <Setter Property="Background" Value="#10FFFFFF"/>
-            <Setter Property="CornerRadius" Value="16"/>
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Foreground" Value="#888"/>
-        </Style>
-        <Style Selector="Button.CloseBtn:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#E81123"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
+        <Style Selector="Border.StepDot"><Setter Property="Width" Value="8"/><Setter Property="Height" Value="8"/><Setter Property="CornerRadius" Value="4"/><Setter Property="Background" Value="#333"/><Setter Property="Margin" Value="6"/><Setter Property="Transitions"><Transitions><DoubleTransition Property="Width" Duration="0:0:0.3"/><BrushTransition Property="Background" Duration="0:0:0.3"/></Transitions></Setter></Style>
+        <Style Selector="Border.StepDot.Active"><Setter Property="Background" Value="{StaticResource PrimaryRed}"/><Setter Property="Width" Value="24"/></Style>
     </UserControl.Styles>
 
     <Grid Background="#CC000000">
-        <Border Width="780" Height="520" CornerRadius="20" 
-                BorderBrush="#20FFFFFF" BorderThickness="1"
-                BoxShadow="0 30 100 0 #A0000000" ClipToBounds="True">
-            
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Offset="0" Color="#1A1A1A"/>
-                    <GradientStop Offset="1" Color="#0D0D0D"/>
-                </LinearGradientBrush>
-            </Border.Background>
-
-            <Grid RowDefinitions="60, *, 90">
-                
-                <Grid Grid.Row="0" Background="#05FFFFFF">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="30,0" Spacing="10">
-                        <TextBlock Text="⚡" FontSize="16"/>
-                        <TextBlock Text="TRÌNH CÀI ĐẶT VIỆT HÓA" FontWeight="Bold" Foreground="#DDD" LetterSpacing="1"/>
-                    </StackPanel>
-                    <Button Name="BtnClose" Click="CloseButton_Click" Classes="CloseBtn" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0">
-                        <TextBlock Text="✕" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Border Width="750" Height="500" CornerRadius="16" Background="#141414" BorderBrush="#30FFFFFF" BorderThickness="1" BoxShadow="0 30 80 0 #A0000000" ClipToBounds="True">
+            <Grid RowDefinitions="60, *, 80">
+                <Grid Grid.Row="0" Background="#1A1A1A">
+                    <TextBlock Text="TRÌNH CÀI ĐẶT VIỆT HÓA" VerticalAlignment="Center" Margin="30,0" FontWeight="Bold" Foreground="#888" LetterSpacing="1"/>
+                    <Button Name="BtnClose" Click="CloseButton_Click" HorizontalAlignment="Right" Width="40" Height="40" Background="Transparent" Foreground="#666" Margin="10,0">
+                        <TextBlock Text="✕" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
                 </Grid>
 
-                <Panel Grid.Row="1" Margin="40,10">
-                    
-                    <Grid Name="Step1_Confirm" Classes="WizardStep" IsVisible="True" ColumnDefinitions="240, *">
-                        <Border Grid.Column="0" CornerRadius="12" ClipToBounds="True" BoxShadow="0 8 30 0 #40000000" VerticalAlignment="Center">
-                            <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Height="320"/>
-                        </Border>
-                        
-                        <StackPanel Grid.Column="1" Margin="40,20,0,0" Spacing="25" VerticalAlignment="Center">
+                <Panel Grid.Row="1" Margin="40,20">
+                    <Grid Name="Step1_Confirm" Classes="WizardStep" IsVisible="True" ColumnDefinitions="220, *">
+                        <Border Grid.Column="0" CornerRadius="8" ClipToBounds="True"><Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill"/></Border>
+                        <StackPanel Grid.Column="1" Margin="30,10,0,0" Spacing="20">
                             <StackPanel Spacing="5">
-                                <TextBlock Text="BẠN ĐANG CÀI ĐẶT:" FontSize="12" Foreground="{StaticResource AccentRed}" FontWeight="Bold" LetterSpacing="1"/>
-                                <TextBlock Text="{Binding Title}" FontSize="40" FontWeight="Black" Foreground="White" LineHeight="44" TextWrapping="Wrap"/>
+                                <TextBlock Text="XÁC NHẬN CÀI ĐẶT" FontSize="12" Foreground="{StaticResource PrimaryRed}" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Title}" FontSize="36" FontWeight="Black" Foreground="White" LineHeight="40"/>
                             </StackPanel>
-                            
-                            <Border Background="#10FFFFFF" CornerRadius="12" Padding="20" BorderBrush="#15FFFFFF" BorderThickness="1">
-                                <StackPanel Spacing="12">
-                                    <Grid ColumnDefinitions="*, Auto">
-                                        <TextBlock Text="Phiên bản Patch:" Foreground="#888"/>
-                                        <TextBlock Text="{Binding Version}" Foreground="#4ade80" FontWeight="Bold" Grid.Column="1"/>
-                                    </Grid>
-                                    <Border Height="1" Background="#15FFFFFF"/>
-                                    <Grid ColumnDefinitions="*, Auto">
-                                        <TextBlock Text="Dung lượng:" Foreground="#888"/>
-                                        <TextBlock Text="{Binding Size}" Foreground="White" FontWeight="Bold" Grid.Column="1"/>
-                                    </Grid>
+                            <Border Background="#1A1A1A" CornerRadius="8" Padding="20" BorderBrush="#333" BorderThickness="1">
+                                <StackPanel Spacing="10">
+                                    <Grid ColumnDefinitions="*,Auto"><TextBlock Text="Phiên bản" Foreground="#888"/><TextBlock Text="{Binding Version}" Foreground="White" FontWeight="Bold" Grid.Column="1"/></Grid>
+                                    <Grid ColumnDefinitions="*,Auto"><TextBlock Text="Dung lượng" Foreground="#888"/><TextBlock Text="{Binding Size}" Foreground="White" FontWeight="Bold" Grid.Column="1"/></Grid>
                                 </StackPanel>
                             </Border>
-                           
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="ℹ" Foreground="{StaticResource AccentRed}"/>
-                                <TextBlock Text="Patch sẽ tự động sao chép vào thư mục cài game." FontSize="12" Foreground="Gray" FontStyle="Italic"/>
-                            </StackPanel>
                         </StackPanel>
                     </Grid>
 
                     <Grid Name="Step2_Folder" Classes="WizardStep" IsVisible="False">
-                        <StackPanel VerticalAlignment="Center" Spacing="30" Margin="60,0">
-                            <TextBlock Text="CHỌN THƯ MỤC GAME" HorizontalAlignment="Center" FontSize="26" FontWeight="Black" Foreground="White"/>
-                            
-                            <StackPanel Spacing="12">
-                                <TextBlock Text="Đường dẫn đến file .exe của game:" Foreground="#BBB"/>
-                                
-                                <Grid ColumnDefinitions="*, 100">
-                                    <TextBox Name="TxtFolderPath" Watermark="C:\Program Files (x86)\Steam\steamapps\common..." 
-                                             Height="50" CornerRadius="8" BorderThickness="1" BorderBrush="#30FFFFFF" 
-                                             Background="#10000000" VerticalContentAlignment="Center" Padding="15,0" Foreground="White"/>
-                                    
-                                    <Button Name="BtnBrowse" Click="BrowseButton_Click" Grid.Column="1" Content="DUYỆT..." 
-                                            Margin="12,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                                            Background="#20FFFFFF" CornerRadius="8" FontWeight="Bold"/>
-                                </Grid>
-                            </StackPanel>
-                            
-                            <Border Background="#15FFCC00" BorderBrush="#30FFCC00" BorderThickness="1" CornerRadius="10" Padding="15">
-                                <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
-                                    <TextBlock Text="⚠️" FontSize="24" VerticalAlignment="Center"/>
-                                    <StackPanel>
-                                        <TextBlock Text="Lưu ý quan trọng" FontWeight="Bold" Foreground="#FFCC00"/>
-                                        <TextBlock Text="Vui lòng chọn chính xác thư mục chứa game gốc để tránh lỗi." FontSize="12" Foreground="#DDDDDD"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
+                        <StackPanel VerticalAlignment="Center" Spacing="20" Margin="50,0">
+                            <TextBlock Text="CHỌN THƯ MỤC GAME" HorizontalAlignment="Center" FontSize="22" FontWeight="Black" Foreground="White"/>
+                            <Grid ColumnDefinitions="*, 90">
+                                <TextBox Name="TxtFolderPath" Watermark="C:\Program Files (x86)..." Height="45" CornerRadius="6" Background="#1A1A1A" BorderBrush="#333" Foreground="White" VerticalContentAlignment="Center"/>
+                                <Button Name="BtnBrowse" Click="BrowseButton_Click" Grid.Column="1" Content="DUYỆT" Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#333" Foreground="White" CornerRadius="6"/>
+                            </Grid>
                         </StackPanel>
                     </Grid>
 
                     <Grid Name="Step3_Installing" Classes="WizardStep" IsVisible="False">
-                        <StackPanel VerticalAlignment="Center" Spacing="50">
+                        <StackPanel VerticalAlignment="Center" Spacing="40" Margin="50,0">
+                            <TextBlock Text="ĐANG CÀI ĐẶT..." HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="White"/>
                             <StackPanel Spacing="10">
-                                <TextBlock Text="ĐANG CÀI ĐẶT..." HorizontalAlignment="Center" FontSize="28" FontWeight="Black" Foreground="White"/>
-                                <TextBlock Text="Vui lòng giữ kết nối mạng và không tắt ứng dụng." HorizontalAlignment="Center" Foreground="#888"/>
-                            </StackPanel>
-                            
-                            <StackPanel Spacing="15" Margin="80,0">
-                                <Border Height="8" Background="#20FFFFFF" CornerRadius="4" ClipToBounds="True">
-                                    <Border Classes="ProgressBarActive" Width="350" HorizontalAlignment="Left" Background="{StaticResource AccentRed}" CornerRadius="4">
-                                        <Border.Transitions>
-                                            <Transitions><DoubleTransition Property="Width" Duration="0:0:0.5" Easing="CircularEaseOut"/></Transitions>
-                                        </Border.Transitions>
+                                <Border Height="6" Background="#333" CornerRadius="3" ClipToBounds="True">
+                                    <Border Name="ProgressBarFill" Width="0" HorizontalAlignment="Left" Background="{StaticResource PrimaryRed}" CornerRadius="3">
+                                        <Border.Transitions><Transitions><DoubleTransition Property="Width" Duration="0:0:0.2"/></Transitions></Border.Transitions>
                                     </Border>
                                 </Border>
-                                
                                 <Grid ColumnDefinitions="*,*">
-                                    <TextBlock Text="Đang giải nén assets..." FontSize="12" Foreground="#888" FontStyle="Italic"/>
-                                    <TextBlock Text="45%" FontSize="12" Foreground="{StaticResource AccentRed}" FontWeight="Bold" Grid.Column="1" HorizontalAlignment="Right"/>
+                                    <TextBlock Name="TxtStatus" Text="Initializing..." FontSize="12" Foreground="#666"/>
+                                    <TextBlock Name="TxtPercent" Text="0%" FontSize="12" Foreground="{StaticResource PrimaryRed}" FontWeight="Bold" Grid.Column="1" HorizontalAlignment="Right"/>
                                 </Grid>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
 
                     <Grid Name="Step4_Success" Classes="WizardStep" IsVisible="False">
-                        <StackPanel VerticalAlignment="Center" Spacing="25">
-                            <Border Classes="SuccessCircle" Width="100" Height="100" CornerRadius="50" Background="#204ade80" BorderBrush="#4ade80" BorderThickness="2" Margin="0,0,0,10">
-                                <TextBlock Text="✔" FontSize="50" Foreground="#4ade80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            
-                            <StackPanel Spacing="5">
-                                <TextBlock Text="CÀI ĐẶT HOÀN TẤT!" HorizontalAlignment="Center" FontSize="32" FontWeight="Black" Foreground="White"/>
-                                <TextBlock Text="Bản Việt Hóa đã sẵn sàng." HorizontalAlignment="Center" Foreground="#AAA" FontSize="16"/>
-                            </StackPanel>
+                        <StackPanel VerticalAlignment="Center" Spacing="20">
+                            <TextBlock Text="✔" FontSize="60" Foreground="#4ade80" HorizontalAlignment="Center"/>
+                            <TextBlock Text="HOÀN TẤT!" HorizontalAlignment="Center" FontSize="28" FontWeight="Black" Foreground="White"/>
                         </StackPanel>
                     </Grid>
                 </Panel>
 
-                <Border Grid.Row="2" Background="#10000000" BorderBrush="#15FFFFFF" BorderThickness="0,1,0,0">
-                    <Grid ColumnDefinitions="140, *, 180" Margin="40,0">
-                        <Button Name="BtnBack" Classes="GhostBtn" Click="BackButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" Spacing="8"><TextBlock Text="←"/><TextBlock Text="Quay lại"/></StackPanel>
-                        </Button>
-                        
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Border Name="Dot1" Classes="StepDot Active"/><Border Name="Dot2" Classes="StepDot"/><Border Name="Dot3" Classes="StepDot"/>
-                        </StackPanel>
-                        
+                <Border Grid.Row="2" Background="#1A1A1A" BorderBrush="#25FFFFFF" BorderThickness="0,1,0,0">
+                    <Grid ColumnDefinitions="120, *, 160" Margin="30,0">
+                        <Button Name="BtnBack" Content="Quay lại" Click="BackButton_Click" Background="Transparent" Foreground="#888" HorizontalAlignment="Left"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center"><Border Name="Dot1" Classes="StepDot Active"/><Border Name="Dot2" Classes="StepDot"/><Border Name="Dot3" Classes="StepDot"/></StackPanel>
                         <Panel Grid.Column="2">
-                            <Button Name="BtnNext" Click="NextButton_Click" Background="{StaticResource AccentRed}" Foreground="White" 
-                                    CornerRadius="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="0,14">
-                                <Button.Effect>
-                                    <DropShadowEffect Color="#FF1F2F" BlurRadius="15" OffsetX="0" OffsetY="4" Opacity="0.4"/>
-                                </Button.Effect>
-                                <TextBlock Name="TxtNext" Text="TIẾP TỤC" FontWeight="Bold" LetterSpacing="1"/>
-                                <Button.Styles>
-                                    <Style Selector="Button:pointerover /template/ ContentPresenter">
-                                        <Setter Property="Background" Value="#D61A26"/>
-                                        <Setter Property="RenderTransform" Value="translateY(-2px)"/>
-                                    </Style>
-                                </Button.Styles>
-                            </Button>
-                            
-                            <Button Name="BtnPlay" IsVisible="False" Click="CloseButton_Click" Background="#4ade80" Foreground="Black" 
-                                    CornerRadius="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="0,14">
-                                <Button.Effect>
-                                    <DropShadowEffect Color="#4ade80" BlurRadius="15" OffsetX="0" OffsetY="4" Opacity="0.4"/>
-                                </Button.Effect>
-                                <StackPanel Orientation="Horizontal" Spacing="8"><TextBlock Text="▶"/><TextBlock Text="CHƠI NGAY" FontWeight="Black"/></StackPanel>
-                            </Button>
+                            <Button Name="BtnNext" Content="TIẾP TỤC" Click="NextButton_Click" Background="{StaticResource PrimaryRed}" Foreground="White" FontWeight="Bold" CornerRadius="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Height="40" VerticalContentAlignment="Center"/>
+                            <Button Name="BtnPlay" Content="CHƠI NGAY" IsVisible="False" Click="CloseButton_Click" Background="#4ade80" Foreground="Black" FontWeight="Bold" CornerRadius="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Height="40" VerticalContentAlignment="Center"/>
                         </Panel>
                     </Grid>
                 </Border>
