@@ -25,15 +25,14 @@ namespace Theindie.ViewModels
 
         public MainWindowViewModel()
         {
-            // SỬA: Thay đổi ImagePath thành "/Assets/Icons/Logo.ico" để không bị lỗi crash
-            // Hoặc bạn có thể dùng link online nếu muốn đẹp: "https://upload.wikimedia.org/wikipedia/en/f/fd/Stardew_Valley_cover.jpg"
+            // Database giả lập (Mặc định chưa cài game nào cả)
             _allGames = new List<GameInfo>
             {
-                new GameInfo { Title = "Stardew Valley", Tags = "Nông trại, RPG", Version = "v1.5.6", Size = "500 MB", UpdateDate = "Mới nhất", Description = "Bạn được thừa hưởng trang trại cũ của ông nội...", ImagePath = "/Assets/Icons/Logo.ico" },
-                new GameInfo { Title = "Hollow Knight", Tags = "Metroidvania", Version = "v1.4.3", Size = "1.2 GB", UpdateDate = "2024", Description = "Khám phá vương quốc côn trùng...", ImagePath = "/Assets/Icons/Logo.ico" },
-                new GameInfo { Title = "Hades", Tags = "Roguelike", Version = "v1.0", Size = "2.5 GB", UpdateDate = "2024", Description = "Vào vai Hoàng tử Địa ngục...", ImagePath = "/Assets/Icons/Logo.ico" },
-                new GameInfo { Title = "Sea of Stars", Tags = "JRPG", Version = "v1.0.4", Size = "3.2 GB", UpdateDate = "2024", Description = "Hành trình của những đứa con Mặt Trời...", ImagePath = "/Assets/Icons/Logo.ico" },
-                new GameInfo { Title = "Elden Ring", Tags = "Souls-like", Version = "v1.10", Size = "60 GB", UpdateDate = "2024", Description = "Trở thành Elden Lord...", ImagePath = "/Assets/Icons/Logo.ico" },
+                new GameInfo { Title = "Stardew Valley", IsInstalled = false, Tags = "Nông trại, RPG", Version = "v1.5.6", Size = "500 MB", UpdateDate = "Mới nhất", Description = "Bạn được thừa hưởng trang trại cũ của ông nội...", ImagePath = "/Assets/Icons/Logo.ico" },
+                new GameInfo { Title = "Hollow Knight", IsInstalled = false, Tags = "Metroidvania", Version = "v1.4.3", Size = "1.2 GB", UpdateDate = "2024", Description = "Khám phá vương quốc côn trùng...", ImagePath = "/Assets/Icons/Logo.ico" },
+                new GameInfo { Title = "Hades", IsInstalled = false, Tags = "Roguelike", Version = "v1.0", Size = "2.5 GB", UpdateDate = "2024", Description = "Vào vai Hoàng tử Địa ngục...", ImagePath = "/Assets/Icons/Logo.ico" },
+                new GameInfo { Title = "Sea of Stars", IsInstalled = false, Tags = "JRPG", Version = "v1.0.4", Size = "3.2 GB", UpdateDate = "2024", Description = "Hành trình của những đứa con Mặt Trời...", ImagePath = "/Assets/Icons/Logo.ico" },
+                new GameInfo { Title = "Elden Ring", IsInstalled = false, Tags = "Souls-like", Version = "v1.10", Size = "60 GB", UpdateDate = "2024", Description = "Trở thành Elden Lord...", ImagePath = "/Assets/Icons/Logo.ico" },
             };
 
             Games = new ObservableCollection<GameInfo>(_allGames);
@@ -43,25 +42,34 @@ namespace Theindie.ViewModels
 
         partial void OnCurrentPageChanged(int value)
         {
+            // Cập nhật tiêu đề trang chuẩn xác
             switch (value)
             {
                 case 0: PageTitle = "TRANG CHỦ"; break;
-                case 1: PageTitle = "THƯ VIỆN CỦA TÔI"; break;
-                case 2: PageTitle = "TẢI XUỐNG"; break;
-                case 3: PageTitle = "CÀI ĐẶT HỆ THỐNG"; break;
+                case 1: PageTitle = "GAME ĐÃ CÀI ĐẶT"; break; // Tab 1 là Game đã cài
+                case 2: PageTitle = "LỊCH SỬ TẢI XUỐNG"; break;
+                case 3: PageTitle = "CẤU HÌNH HỆ THỐNG"; break;
             }
             ApplyFilter();
         }
 
+        // LOGIC LỌC TRUNG TÂM
         private void ApplyFilter()
         {
             var query = _searchText.ToLower();
             var filtered = _allGames.Where(g =>
+                // 1. Lọc theo tên tìm kiếm
                 g.Title.ToLower().Contains(query) &&
-                (CurrentPage != 1 || g.Title.Contains("Stardew") || g.Title.Contains("Hollow"))
+
+                // 2. Lọc theo Tab:
+                // Nếu đang ở Tab 1 (Index = 1), chỉ hiện những game có IsInstalled = true
+                (CurrentPage != 1 || g.IsInstalled)
             );
             Games = new ObservableCollection<GameInfo>(filtered);
         }
+
+        // Hàm để Main Window gọi khi cần làm mới danh sách
+        public void RefreshList() => ApplyFilter();
 
         [RelayCommand]
         public void SwitchPage(string pageIndex)

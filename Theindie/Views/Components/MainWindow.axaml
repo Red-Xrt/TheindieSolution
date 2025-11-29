@@ -95,22 +95,26 @@
 
                     <StackPanel Grid.Row="1" Spacing="6">
                         <TextBlock Text="MENU CHÍNH" FontSize="10" Foreground="#666" FontWeight="Bold" Margin="16,0,0,8"/>
+                        
                         <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="0">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <TextBlock Text="🏠"/> <TextBlock Text="Trang Chủ"/>
                             </StackPanel>
                         </Button>
+                        
                         <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="1">
                             <StackPanel Orientation="Horizontal" Spacing="12">
-                                <TextBlock Text="📚"/> <TextBlock Text="Thư Viện"/>
+                                <TextBlock Text="✅"/> <TextBlock Text="Đã Cài Đặt"/>
                             </StackPanel>
                         </Button>
+
                         <TextBlock Text="HỆ THỐNG" FontSize="10" Foreground="#666" FontWeight="Bold" Margin="16,20,0,8"/>
                         <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="2">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <TextBlock Text="⬇"/> <TextBlock Text="Tải Xuống"/>
                             </StackPanel>
                         </Button>
+                        
                         <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="3">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <TextBlock Text="⚙"/> <TextBlock Text="Cài Đặt"/>

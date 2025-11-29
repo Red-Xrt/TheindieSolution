@@ -4,12 +4,14 @@ using Avalonia.Media; // Cần dòng này
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using System;
+using Theindie.Models;
 
 namespace Theindie.Views.Components
 {
     public partial class InstallationWizardView : UserControl
     {
         public event EventHandler<RoutedEventArgs>? CloseRequested;
+        public event EventHandler<GameInfo>? GameInstalled;
         private int _currentStep = 1;
 
         public InstallationWizardView()
@@ -64,6 +66,17 @@ namespace Theindie.Views.Components
         private void CloseButton_Click(object? sender, RoutedEventArgs e)
         {
             if (_currentStep == 3) return;
+
+            // Nếu đang ở bước cuối (Thành công), kích hoạt sự kiện
+            if (_currentStep == 4)
+            {
+                if (DataContext is GameInfo game)
+                {
+                    // Bắn pháo hiệu: "Game này đã cài xong!"
+                    GameInstalled?.Invoke(this, game);
+                }
+            }
+
             CloseRequested?.Invoke(this, e);
             ResetWizard();
         }

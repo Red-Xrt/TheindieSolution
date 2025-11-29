@@ -131,12 +131,29 @@
 
                         <Separator Background="#20FFFFFF" Height="1"/>
 
-                        <Button Background="{StaticResource AccentRed}" CornerRadius="12" Height="56" 
-                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                                Click="InstallButton_Click" Classes="Primary">
+                        <Button IsVisible="{Binding !IsInstalled}"
+                                Background="{StaticResource AccentGradient}" CornerRadius="8" Height="50" 
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                Click="InstallButton_Click" Classes="Primary" BorderThickness="0">
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <TextBlock Text="⬇" FontWeight="Black" FontSize="18"/>
-                                <TextBlock Text="CÀI ĐẶT NGAY" FontWeight="Black" FontSize="16"/>
+                                <TextBlock Text="CÀI ĐẶT VIỆT HÓA" FontWeight="Black" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button IsVisible="{Binding IsInstalled}"
+                                Background="#20FFFFFF" CornerRadius="8" Height="50" 
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                Click="UninstallButton_Click" BorderThickness="1" BorderBrush="#30FFFFFF">
+                            <Button.Styles>
+                                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="#E81123"/>
+                                    <Setter Property="BorderBrush" Value="#E81123"/>
+                                </Style>
+                            </Button.Styles>
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="🗑" FontWeight="Black" FontSize="16"/>
+                                <TextBlock Text="GỠ VIỆT HÓA" FontWeight="Bold" FontSize="16"/>
                             </StackPanel>
                         </Button>
                         

@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Theindie.Models
 {
-    public class GameInfo
+    // Kế thừa ObservableObject để giao diện tự cập nhật khi biến thay đổi
+    public partial class GameInfo : ObservableObject
     {
-        // Các thông tin cơ bản của một game
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
-        public string Tags { get; set; } = ""; // Ví dụ: "Nhập vai, Nông trại"
+        public string Tags { get; set; } = "";
         public string Version { get; set; } = "";
         public string Size { get; set; } = "";
         public string UpdateDate { get; set; } = "";
         public string Rating { get; set; } = "5.0";
-
-        // Đường dẫn ảnh (Tạm thời dùng ảnh trong Assets)
-        // Sau này có thể là URL online
         public string ImagePath { get; set; } = "";
+
+        // TRẠNG THÁI QUAN TRỌNG: Đã cài đặt hay chưa?
+        [ObservableProperty]
+        private bool _isInstalled = false;
     }
 }
