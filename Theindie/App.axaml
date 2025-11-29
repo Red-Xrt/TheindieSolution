@@ -7,7 +7,7 @@
     <Application.Resources>
         <SolidColorBrush x:Key="PrimaryRed">#FF1F2F</SolidColorBrush>
         <SolidColorBrush x:Key="DarkRed">#C40D1C</SolidColorBrush>
-        
+        <converters:IntToBoolConverter x:Key="PageActiveConverter"/>
         <LinearGradientBrush x:Key="RedGradient" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Offset="0" Color="#FF1F2F"/>
             <GradientStop Offset="1" Color="#D90C1C"/>

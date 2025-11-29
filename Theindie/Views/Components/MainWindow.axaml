@@ -9,9 +9,9 @@
         Title="The Indie Launcher" Icon="/Assets/Icons/Logo.ico"
         Background="Transparent" TransparencyLevelHint="AcrylicBlur"
         ExtendClientAreaToDecorationsHint="True" ExtendClientAreaChromeHints="NoChrome"
-        Width="1280" Height="800" WindowStartupLocation="CenterScreen">
-
-    <Window.Resources>
+        
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"> <Window.Resources>
         <DataTemplate x:Key="GameListTemplate" x:DataType="vm:MainWindowViewModel">
             <StackPanel Spacing="20">
                 <Grid ColumnDefinitions="Auto, *">
@@ -57,18 +57,18 @@
 
                     <StackPanel Grid.Row="1" Spacing="8">
                         <TextBlock Text="MAIN MENU" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,0,0,10" LetterSpacing="1"/>
-                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="0">
+                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="0" Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=0}">
                             <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"><PathIcon Data="{StaticResource IconHome}"/> <TextBlock Text="Trang Chủ" VerticalAlignment="Center"/></StackPanel>
                         </Button>
-                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="1">
+                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="1" Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=1}">
                             <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"><PathIcon Data="{StaticResource IconCheck}"/> <TextBlock Text="Đã Cài Đặt" VerticalAlignment="Center"/></StackPanel>
                         </Button>
 
                         <TextBlock Text="SYSTEM" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,25,0,10" LetterSpacing="1"/>
-                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="2">
+                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="2" Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=2}">
                             <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"><PathIcon Data="{StaticResource IconDownload}"/> <TextBlock Text="Tải Xuống" VerticalAlignment="Center"/></StackPanel>
                         </Button>
-                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="3">
+                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="3" Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=3}">
                             <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"><PathIcon Data="{StaticResource IconSettings}"/> <TextBlock Text="Cấu Hình" VerticalAlignment="Center"/></StackPanel>
                         </Button>
                     </StackPanel>
@@ -113,14 +113,15 @@
                     
                     <ScrollViewer Padding="30,0,30,40">
                         <StackPanel Spacing="35">
-                            
-                            <Border Height="260" Margin="10,0,10,0" CornerRadius="16" ClipToBounds="True" BoxShadow="0 20 60 0 #60000000" BorderBrush="{StaticResource PrimaryRed}" BorderThickness="0,0,0,2">
+                        <Border Height="260" MaxWidth="985" HorizontalAlignment="Center"
+                                    Margin="10,0,10,0" CornerRadius="16" ClipToBounds="True" 
+                                    BoxShadow="0 20 60 0 #60000000" BorderBrush="{StaticResource PrimaryRed}" BorderThickness="0,0,0,2">
                                 <Panel>
                                     <Image Source="/Assets/Icons/Logo.ico" Stretch="UniformToFill" Opacity="0.7"/>
                                     <Border Background="{StaticResource BgDark}" Opacity="0.3"/>
                                     <Border><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0.4" Color="Transparent"/><GradientStop Offset="1" Color="#050505"/></LinearGradientBrush></Border.Background></Border>
                                     
-                                    <Grid RowDefinitions="*, Auto" Margin="30">
+                                    <Grid RowDefinitions="*, Auto" Margin="40">
                                         <StackPanel Grid.Row="1">
                                             <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
                                                 <Border Background="{StaticResource PrimaryRed}" CornerRadius="4" Padding="8,4"><TextBlock Text="HOT" Foreground="White" FontWeight="Black" FontSize="11"/></Border>
@@ -165,7 +166,6 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0">
              <Button Classes="WindowControl" Content="─" Click="Minimize_Click"/>
-             <Button Classes="WindowControl" Content="☐" Click="Maximize_Click"/>
              <Button Classes="WindowControl Close" Content="✕" Click="Close_Click"/>
         </StackPanel>
     </Panel>

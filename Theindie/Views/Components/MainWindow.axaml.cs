@@ -1,6 +1,8 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
+using System;
 using Theindie.Models;
 using Theindie.ViewModels;
 
@@ -29,10 +31,35 @@ namespace Theindie.Views
         }
 
         private void Minimize_Click(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
-        private void Maximize_Click(object? sender, RoutedEventArgs e) => WindowState = (WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         private void Close_Click(object? sender, RoutedEventArgs e) => Close();
 
+        protected override void OnOpened(EventArgs e)
+        {
+            base.OnOpened(e);
 
+            // Lấy thông tin màn hình hiện tại
+            if (Screens.Primary != null)
+            {
+                var workArea = Screens.Primary.WorkingArea; // Vùng làm việc (trừ thanh Taskbar)
+                var screenWidth = workArea.Width;
+                var screenHeight = workArea.Height;
+
+                // 1. Tính toán kích thước mong muốn (70% Rộng, 75% Cao)
+                var newWidth = screenWidth * 0.70;
+                var newHeight = screenHeight * 0.75;
+
+                this.Width = newWidth;
+                this.Height = newHeight;
+
+                // 2. TÍNH TOÁN VỊ TRÍ CĂN GIỮA (CENTER)
+                // Công thức: Tọa độ = Góc màn hình + (Kích thước màn - Kích thước app) / 2
+                var newX = (int)(workArea.X + (screenWidth - newWidth) / 2);
+                var newY = (int)(workArea.Y + (screenHeight - newHeight) / 2);
+
+                // 3. Áp dụng vị trí mới
+                this.Position = new PixelPoint(newX, newY);
+            }
+        }
         // --- 2. XỬ LÝ OVERLAY CHI TIẾT GAME ---
         private void OnGameCardClick(object? sender, RoutedEventArgs e)
         {
