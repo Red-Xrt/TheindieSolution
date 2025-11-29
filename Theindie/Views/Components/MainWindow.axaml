@@ -1,0 +1,117 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:components="using:Theindie.Views.Components"
+        xmlns:models="using:Theindie.Models"
+        xmlns:views="using:Theindie.Views"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
+        x:Class="Theindie.Views.MainWindow"
+        x:DataType="views:MainWindow"
+        
+        Title="The Indie Launcher"
+        Icon="/Assets/Icons/Logo.ico"
+        Background="Transparent"
+        TransparencyLevelHint="AcrylicBlur"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        
+        Width="1280" Height="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Styles>
+        <Style Selector="TextBox.SearchInput">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/> 
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="Padding" Value="15,0,0,0"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+        <Style Selector="TextBox.SearchInput:pointerover /template/ Border#PART_BorderElement"><Setter Property="Background" Value="Transparent"/></Style>
+        <Style Selector="TextBox.SearchInput:focus /template/ Border#PART_BorderElement"><Setter Property="Background" Value="Transparent"/></Style>
+
+        <Style Selector="ScrollBar:vertical">
+            <Setter Property="AllowAutoHide" Value="False"/>
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="ScrollBar /template/ RepeatButton"><Setter Property="IsVisible" Value="False"/></Style>
+        <Style Selector="ScrollBar /template/ Thumb"><Setter Property="Background" Value="#15FFFFFF"/><Setter Property="CornerRadius" Value="4"/></Style>
+    </Window.Styles>
+
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintColor="#050505" TintOpacity="0.95" MaterialOpacity="0.65" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+
+        <Grid RowDefinitions="Auto, *">
+            <Grid Grid.Row="0" Height="80" ZIndex="10">
+                <Border Background="#90050505" BorderBrush="#15FFFFFF" BorderThickness="0,0,0,1"/>
+                <Grid ColumnDefinitions="Auto, *, Auto" Margin="40,0">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                         <TextBlock Text="THE INDIE" FontWeight="Black" FontSize="24" Foreground="White" LetterSpacing="1" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Border Grid.Column="1" Width="400" Height="40" CornerRadius="20" Background="#15FFFFFF" BorderBrush="#20FFFFFF" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBox Classes="SearchInput" Watermark="Tìm kiếm game..." Background="Transparent" BorderThickness="0" Foreground="#DDDDDD"/>
+                    </Border>
+                    </Grid>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1" Padding="0,20,0,40" VerticalScrollBarVisibility="Visible" AllowAutoHide="False">
+                <StackPanel Spacing="40" Margin="40,0">
+                    <Border Height="350" CornerRadius="24" ClipToBounds="True" BoxShadow="0 20 60 0 #50000000">
+                        <Panel>
+                            <Border>
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Offset="0" Color="#200a40"/>
+                                        <GradientStop Offset="1" Color="#0a0a0a"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <StackPanel VerticalAlignment="Bottom" Margin="50">
+                                <Border Background="#CCFF1F2F" HorizontalAlignment="Left" CornerRadius="6" Padding="10,4" Margin="0,0,0,15">
+                                    <TextBlock Text="NỔI BẬT NHẤT TUẦN" FontWeight="Bold" FontSize="12" Foreground="White" LetterSpacing="1"/>
+                                </Border>
+                                <TextBlock Text="STARDEW VALLEY" FontWeight="Black" FontSize="56" Foreground="White" LineHeight="60"/>
+                                <TextBlock Text="Phiên bản Việt Hóa v1.5.6 - Đầy đủ nhất từ trước đến nay." Foreground="#AAAAAA" FontSize="18" Margin="0,10,0,30"/>
+                                <Button Classes="Primary" HorizontalAlignment="Left" Content="CÀI ĐẶT NGAY"/>
+                            </StackPanel>
+                        </Panel>
+                    </Border>
+
+                    <StackPanel Spacing="20">
+                        <TextBlock Text="DANH SÁCH GAME" FontWeight="Black" FontSize="20" Foreground="White" LetterSpacing="0.5"/>
+                        <ItemsControl ItemsSource="{Binding Games}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Margin="-10" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:GameInfo">
+                                    <components:GameCardView Width="240" Height="360" Click="OnGameCardClick"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <Panel Height="50"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <components:GameDetailView Name="DetailOverlay" IsVisible="False" BackRequested="HideDetail_Overlay" InstallRequested="ShowInstall_Wizard"/>
+        <components:InstallationWizardView Name="InstallWizard" IsVisible="False" CloseRequested="HideInstall_Wizard"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0">
+             <Button Classes="WindowControl" Content="─" Click="Minimize_Click" ToolTip.Tip="Thu nhỏ"/>
+             <Button Classes="WindowControl" Content="☐" Click="Maximize_Click" ToolTip.Tip="Phóng to"/>
+             <Button Classes="WindowControl Close" Content="✕" Click="Close_Click" ToolTip.Tip="Đóng"/>
+        </StackPanel>
+    </Panel>
+</Window>

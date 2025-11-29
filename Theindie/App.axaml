@@ -1,0 +1,17 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Theindie.App"
+             RequestedThemeVariant="Dark">
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="BrandDarkBrush">#050505</SolidColorBrush>
+        <SolidColorBrush x:Key="BrandRedBrush">#FF1F2F</SolidColorBrush>
+        <SolidColorBrush x:Key="GlassBorderBrush">#15FFFFFF</SolidColorBrush>
+        
+        </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="/Styles/ButtonStyles.axaml"/>
+    </Application.Styles>
+</Application>

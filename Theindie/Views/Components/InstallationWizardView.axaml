@@ -1,0 +1,168 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="using:Theindie.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:DataType="models:GameInfo"
+             x:Class="Theindie.Views.Components.InstallationWizardView">
+
+    <UserControl.Styles>
+        <Style Selector="Border.StepDot">
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Height" Value="8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="#30FFFFFF"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.3"/>
+                    <DoubleTransition Property="Width" Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Border.StepDot.Active">
+            <Setter Property="Background" Value="#FF1F2F"/>
+            <Setter Property="Width" Value="24"/>
+        </Style>
+        <Style Selector="Button.Secondary">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#AAAAAA"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        <Style Selector="Button.Secondary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#10FFFFFF"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style Selector="Button.CloseBtn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="CornerRadius" Value="20"/>
+        </Style>
+        <Style Selector="Button.CloseBtn:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#20FF0000"/>
+            <Setter Property="Foreground" Value="#FF1F2F"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="#CC050505">
+        <Border Width="750" Height="500" CornerRadius="16" 
+                Background="#1A1A1A" BorderBrush="#30FFFFFF" BorderThickness="1"
+                BoxShadow="0 25 80 0 #90000000" ClipToBounds="True">
+            
+            <Grid RowDefinitions="60, *, 80">
+                <Grid Grid.Row="0" Background="#20000000">
+                    <TextBlock Text="TRÌNH CÀI ĐẶT VIỆT HÓA" VerticalAlignment="Center" Margin="30,0" FontWeight="Bold" Foreground="#888888" LetterSpacing="1"/>
+                    <Button Name="BtnClose" Click="CloseButton_Click" Classes="CloseBtn" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0">
+                        <TextBlock Text="✕" FontSize="16" FontWeight="Bold"/>
+                    </Button>
+                </Grid>
+
+                <Panel Grid.Row="1" Margin="40,20">
+                    <Grid Name="Step1_Confirm" IsVisible="True" ColumnDefinitions="240, *">
+                        <Border Grid.Column="0" CornerRadius="12" ClipToBounds="True" BoxShadow="0 10 30 0 #50000000">
+                            <Image Source="{Binding ImagePath}" Stretch="UniformToFill"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="30,10,0,0" Spacing="20">
+                            <StackPanel Spacing="5">
+                                <TextBlock Text="XÁC NHẬN CÀI ĐẶT:" FontSize="12" Foreground="#AAAAAA" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Title}" FontSize="36" FontWeight="Black" Foreground="White" LineHeight="40" TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <Border Background="#10FFFFFF" CornerRadius="8" Padding="20">
+                                <StackPanel Spacing="12">
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <TextBlock Text="Phiên bản Patch:" Foreground="Gray"/>
+                                        <TextBlock Text="{Binding Version}" Foreground="#4ade80" FontWeight="Bold" Grid.Column="1"/>
+                                    </Grid>
+                                    <Border Height="1" Background="#15FFFFFF"/>
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <TextBlock Text="Dung lượng:" Foreground="Gray"/>
+                                        <TextBlock Text="{Binding Size}" Foreground="White" FontWeight="Bold" Grid.Column="1"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="ℹ" Foreground="#FF1F2F"/>
+                                <TextBlock Text="Patch sẽ được cài đè lên thư mục game gốc." FontSize="12" Foreground="Gray" FontStyle="Italic"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="Step2_Folder" IsVisible="False">
+                        <StackPanel VerticalAlignment="Center" Spacing="25" Margin="50,0">
+                            <TextBlock Text="CHỌN THƯ MỤC CÀI ĐẶT" HorizontalAlignment="Center" FontSize="22" FontWeight="Black" Foreground="White"/>
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="Đường dẫn đến thư mục game gốc:" Foreground="Gray"/>
+                                
+                                <Grid ColumnDefinitions="*, 60">
+                                    <TextBox Name="TxtFolderPath" Watermark="Ví dụ: C:\Program Files (x86)\Steam..." Height="45" CornerRadius="8" BorderBrush="#30FFFFFF" Background="#10000000" VerticalContentAlignment="Center" Padding="15,0"/>
+                                    <Button Name="BtnBrowse" Click="BrowseButton_Click" Grid.Column="1" Content="..." Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#30FFFFFF" CornerRadius="8"/>
+                                </Grid>
+                            </StackPanel>
+                            <Border Background="#15FFCC00" BorderBrush="#30FFCC00" BorderThickness="1" CornerRadius="8" Padding="15">
+                                <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                                    <TextBlock Text="⚠️" FontSize="24" VerticalAlignment="Center"/>
+                                    <StackPanel>
+                                        <TextBlock Text="Lưu ý quan trọng" FontWeight="Bold" Foreground="#FFCC00"/>
+                                        <TextBlock Text="Vui lòng chọn đúng thư mục chứa file .exe của game." FontSize="12" Foreground="#DDDDDD"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="Step3_Installing" IsVisible="False">
+                        <StackPanel VerticalAlignment="Center" Spacing="40">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="ĐANG CÀI ĐẶT..." HorizontalAlignment="Center" FontSize="24" FontWeight="Black" Foreground="White"/>
+                                <TextBlock Text="Vui lòng không tắt ứng dụng." HorizontalAlignment="Center" Foreground="Gray"/>
+                            </StackPanel>
+                            <StackPanel Spacing="10" Margin="100,0">
+                                <Border Height="6" Background="#20FFFFFF" CornerRadius="3" ClipToBounds="True">
+                                    <Border Width="300" HorizontalAlignment="Left" Background="#FF1F2F">
+                                        <Border.Transitions><Transitions><DoubleTransition Property="Width" Duration="0:0:2"/></Transitions></Border.Transitions>
+                                    </Border>
+                                </Border>
+                                <Grid ColumnDefinitions="*,*">
+                                    <TextBlock Text="Copying assets..." FontSize="12" Foreground="Gray"/>
+                                    <TextBlock Text="45%" FontSize="12" Foreground="White" FontWeight="Bold" Grid.Column="1" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="Step4_Success" IsVisible="False">
+                        <StackPanel VerticalAlignment="Center" Spacing="20">
+                            <Border Width="80" Height="80" CornerRadius="40" Background="#204ade80" BorderBrush="#4ade80" BorderThickness="2">
+                                <TextBlock Text="✔" FontSize="40" Foreground="#4ade80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="CÀI ĐẶT THÀNH CÔNG!" HorizontalAlignment="Center" FontSize="28" FontWeight="Black" Foreground="White"/>
+                            <TextBlock Text="Chúc bạn chơi game vui vẻ." HorizontalAlignment="Center" Foreground="Gray"/>
+                        </StackPanel>
+                    </Grid>
+                </Panel>
+
+                <Border Grid.Row="2" Background="#10000000" BorderBrush="#15FFFFFF" BorderThickness="0,1,0,0">
+                    <Grid ColumnDefinitions="120, *, 160" Margin="40,0">
+                        <Button Name="BtnBack" Classes="Secondary" Click="BackButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Spacing="8"><TextBlock Text="←"/><TextBlock Text="Quay lại"/></StackPanel>
+                        </Button>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Border Name="Dot1" Classes="StepDot Active"/><Border Name="Dot2" Classes="StepDot"/><Border Name="Dot3" Classes="StepDot"/>
+                        </StackPanel>
+                        <Panel Grid.Column="2">
+                            <Button Name="BtnNext" Click="NextButton_Click" Background="#FF1F2F" Foreground="White" CornerRadius="8" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="0,12">
+                                <TextBlock Name="TxtNext" Text="TIẾP TỤC" FontWeight="Bold"/>
+                            </Button>
+                            <Button Name="BtnPlay" IsVisible="False" Click="CloseButton_Click" Background="#4ade80" Foreground="Black" CornerRadius="8" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="0,12">
+                                <StackPanel Orientation="Horizontal" Spacing="8"><TextBlock Text="▶"/><TextBlock Text="CHƠI NGAY" FontWeight="Black"/></StackPanel>
+                            </Button>
+                        </Panel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
