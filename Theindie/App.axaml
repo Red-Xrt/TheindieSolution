@@ -1,17 +1,55 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:Theindie.Converters"
              x:Class="Theindie.App"
              RequestedThemeVariant="Dark">
 
     <Application.Resources>
-        <SolidColorBrush x:Key="BrandDarkBrush">#050505</SolidColorBrush>
-        <SolidColorBrush x:Key="BrandRedBrush">#FF1F2F</SolidColorBrush>
-        <SolidColorBrush x:Key="GlassBorderBrush">#15FFFFFF</SolidColorBrush>
-        
-        </Application.Resources>
+        <SolidColorBrush x:Key="BgDark">#050505</SolidColorBrush>
+        <SolidColorBrush x:Key="BgCard">#141414</SolidColorBrush>
+        <SolidColorBrush x:Key="AccentRed">#FF1F2F</SolidColorBrush>
+        <SolidColorBrush x:Key="GlassBorder">#1FFFFFFF</SolidColorBrush>
+        <converters:BitmapAssetValueConverter x:Key="BitmapConverter"/>
+    </Application.Resources>
 
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="/Styles/ButtonStyles.axaml"/>
+
+        <Style Selector="TextBox.SearchInput">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="10,0,0,0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CaretBrush" Value="White"/>
+        </Style>
+        <Style Selector="TextBox.SearchInput:pointerover /template/ Border#PART_BorderElement"><Setter Property="Background" Value="Transparent"/></Style>
+        <Style Selector="TextBox.SearchInput:focus /template/ Border#PART_BorderElement"><Setter Property="Background" Value="Transparent"/></Style>
+        <Style Selector="TextBox.SearchInput:focus"><Setter Property="Foreground" Value="White"/></Style>
+
+        <Style Selector="Button.WindowControl">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#AAAAAA"/>
+        </Style>
+        <Style Selector="Button.WindowControl:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#20FFFFFF"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style Selector="Button.WindowControl.Close:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#E81123"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style Selector="ScrollBar:vertical"><Setter Property="Width" Value="6"/><Setter Property="AllowAutoHide" Value="False"/><Setter Property="Background" Value="Transparent"/></Style>
+        <Style Selector="ScrollBar /template/ RepeatButton"><Setter Property="IsVisible" Value="False"/></Style>
+        <Style Selector="ScrollBar /template/ Thumb"><Setter Property="Background" Value="#20FFFFFF"/><Setter Property="CornerRadius" Value="3"/></Style>
     </Application.Styles>
 </Application>

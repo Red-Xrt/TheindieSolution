@@ -15,7 +15,6 @@
     <AvaloniaResource Include="Assets\**" />
     <AvaloniaXaml Remove="Styles\ButtonStyles.axaml" />
     <AvaloniaResource Include="Styles\ButtonStyles.axaml" />
-    <Folder Include="Converters\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

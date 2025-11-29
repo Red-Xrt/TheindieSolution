@@ -1,127 +1,68 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             
              xmlns:models="using:Theindie.Models"
-             
-             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
-             
              x:DataType="models:GameInfo"
-             
              x:Class="Theindie.Views.Components.GameDetailView">
-
-    <UserControl.Styles>
-        <Style Selector="Border.TagBadge">
-            <Setter Property="Background" Value="#20FFFFFF"/>
-            <Setter Property="CornerRadius" Value="4"/>
-            <Setter Property="Padding" Value="10,4"/>
-            <Setter Property="Margin" Value="0,0,8,0"/>
-        </Style>
-        <Style Selector="Border.TagBadge TextBlock">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="#DDDDDD"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-        <Style Selector="Button.BackButton">
-            <Setter Property="Background" Value="#40000000"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="15,8"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#30FFFFFF"/>
-        </Style>
-        <Style Selector="Button.BackButton:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#60FFFFFF"/>
-            <Setter Property="BorderBrush" Value="White"/>
-        </Style>
-    </UserControl.Styles>
 
     <Grid Background="#050505">
         <Panel>
-            <Image Source="{Binding ImagePath, Stretch="UniformToFill" Opacity="0.4"/>
-            <Border Background="#CC050505">
-                <Border.Effect>
-                    <BlurEffect Radius="40"/>
-                </Border.Effect>
-            </Border>
-            <Border>
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Offset="0" Color="#80000000"/>
-                        <GradientStop Offset="1" Color="#050505"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
+            <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Opacity="0.3"/>
+            <Border Background="#CC050505"><Border.Effect><BlurEffect Radius="60"/></Border.Effect></Border>
+            <Border><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0" Color="#90000000"/><GradientStop Offset="1" Color="#050505"/></LinearGradientBrush></Border.Background></Border>
         </Panel>
 
-        <Grid RowDefinitions="Auto, *" Margin="40,20">
-            <Grid Grid.Row="0" Height="60">
-                <Button Classes="BackButton" HorizontalAlignment="Left" VerticalAlignment="Center" Click="BackButton_Click">
+        <Grid RowDefinitions="60, *" Margin="30,0">
+            <Grid Grid.Row="0">
+                <Button Classes="CleanBtn" HorizontalAlignment="Left" VerticalAlignment="Center" Click="BackButton_Click">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock Text="←" FontWeight="Bold"/>
-                        <TextBlock Text="QUAY LẠI"/>
+                        <TextBlock Text="QUAY LẠI" FontWeight="SemiBold"/>
                     </StackPanel>
                 </Button>
             </Grid>
 
-            <Grid Grid.Row="1" ColumnDefinitions="*, 350">
+            <Grid Grid.Row="1" ColumnDefinitions="*, 320" Margin="0,0,0,30">
                 <ScrollViewer Grid.Column="0" Padding="0,0,40,0" VerticalScrollBarVisibility="Hidden">
-                    <StackPanel Spacing="30">
-                        <StackPanel Spacing="15">
-                            <TextBlock Text="{Binding Title}" FontWeight="Black" FontSize="56" Foreground="White" LineHeight="60" TextWrapping="Wrap"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Border Classes="TagBadge"><TextBlock Text="{Binding Tags}"/></Border>
-                                <Border Classes="TagBadge"><TextBlock Text="VIỆT HÓA"/></Border>
-                            </StackPanel>
-                        </StackPanel>
+                    <StackPanel Spacing="25">
+                        <TextBlock Text="{Binding Title}" FontWeight="Black" FontSize="48" Foreground="White" LineHeight="52" TextWrapping="Wrap"/>
                         
-                        <Border Height="400" CornerRadius="16" Background="Black" BorderBrush="#30FFFFFF" BorderThickness="1">
-                            <TextBlock Text="TRAILER VIDEO" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Border Background="#20FFFFFF" CornerRadius="4" Padding="10,5"><TextBlock Text="{Binding Tags}" FontSize="12" Foreground="#DDD"/></Border>
+                            <Border Background="#20FFFFFF" CornerRadius="4" Padding="10,5"><TextBlock Text="VIỆT HÓA" FontSize="12" Foreground="#DDD"/></Border>
+                        </StackPanel>
+
+                        <Border Height="360" CornerRadius="12" Background="Black" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
+                            <TextBlock Text="TRAILER / MEDIA" Foreground="#444" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
                         </Border>
 
-                        <TextBlock Text="GIỚI THIỆU" FontWeight="Bold" FontSize="18" Foreground="White"/>
-                        <TextBlock Text="{Binding Description}" Foreground="#BBBBBB" FontSize="15" LineHeight="24" TextWrapping="Wrap"/>
+                        <TextBlock Text="GIỚI THIỆU" FontWeight="Bold" FontSize="16" Foreground="White" Margin="0,10,0,0"/>
+                        <TextBlock Text="{Binding Description}" Foreground="#BBB" FontSize="14" LineHeight="24" TextWrapping="Wrap"/>
                         <Panel Height="50"/>
                     </StackPanel>
                 </ScrollViewer>
 
-                <Border Grid.Column="1" Background="#1A1A1A" CornerRadius="16" BorderBrush="#30FFFFFF" BorderThickness="1" Padding="25" VerticalAlignment="Top">
-                    <StackPanel Spacing="25">
-                        <Border CornerRadius="8" ClipToBounds="True" Height="200" BoxShadow="0 5 15 0 #80000000">
-                            <Image Source="{Binding ImagePath}" Stretch="UniformToFill"/>
+                <Border Grid.Column="1" Background="#141414" CornerRadius="16" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1" Padding="20" VerticalAlignment="Top">
+                    <StackPanel Spacing="20">
+                        <Border CornerRadius="8" ClipToBounds="True" Height="180" BoxShadow="0 5 20 0 #50000000">
+                            <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill"/>
                         </Border>
 
-                        <StackPanel Spacing="10">
-                            <TextBlock Text="THÔNG TIN PATCH" FontWeight="Bold" Foreground="Gray" FontSize="12"/>
-                            <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Phiên bản:" Foreground="White"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Version}" Foreground="White" FontWeight="Bold"/>
-                            </Grid>
-                            <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Dung lượng:" Foreground="White"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Size}" Foreground="White" FontWeight="Bold"/>
-                            </Grid>
-                            <Grid ColumnDefinitions="*, Auto">
-                                <TextBlock Text="Cập nhật:" Foreground="White"/>
-                                <TextBlock Grid.Column="1" Text="{Binding UpdateDate}" Foreground="White" FontWeight="Bold"/>
-                            </Grid>
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="THÔNG TIN" FontWeight="Bold" Foreground="#666" FontSize="11"/>
+                            <Grid ColumnDefinitions="*,Auto"><TextBlock Text="Phiên bản" Foreground="#AAA"/><TextBlock Grid.Column="1" Text="{Binding Version}" Foreground="White" FontWeight="Bold"/></Grid>
+                            <Grid ColumnDefinitions="*,Auto"><TextBlock Text="Dung lượng" Foreground="#AAA"/><TextBlock Grid.Column="1" Text="{Binding Size}" Foreground="White" FontWeight="Bold"/></Grid>
+                            <Grid ColumnDefinitions="*,Auto"><TextBlock Text="Ngày update" Foreground="#AAA"/><TextBlock Grid.Column="1" Text="{Binding UpdateDate}" Foreground="White" FontWeight="Bold"/></Grid>
                         </StackPanel>
 
-                        <Separator Background="#30FFFFFF" Height="1"/>
+                        <Separator Background="{StaticResource GlassBorder}" Height="1"/>
 
-                        <StackPanel Spacing="10">
-                            <Button Background="#FF1F2F" 
-                                    CornerRadius="8" 
-                                    Height="60" 
-                                    HorizontalAlignment="Stretch" 
-                                    HorizontalContentAlignment="Center" 
-                                    VerticalContentAlignment="Center"
-                                    Click="InstallButton_Click"> <TextBlock Text="CÀI ĐẶT NGAY" FontWeight="Black" FontSize="18"/>
-                            </Button>
-                            
-                            <TextBlock Text="Yêu cầu game gốc trên Steam/GOG" Foreground="Gray" FontSize="11" HorizontalAlignment="Center" FontStyle="Italic"/>
-                        </StackPanel>
+                        <Button Background="{StaticResource AccentRed}" CornerRadius="8" Height="50" HorizontalAlignment="Stretch" 
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="InstallButton_Click">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="⬇" FontWeight="Bold"/>
+                                <TextBlock Text="CÀI ĐẶT NGAY" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </Border>
             </Grid>

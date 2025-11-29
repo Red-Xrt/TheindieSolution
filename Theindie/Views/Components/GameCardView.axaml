@@ -2,43 +2,53 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:models="using:Theindie.Models"
              x:DataType="models:GameInfo"
-             x:Class="Theindie.Views.Components.GameCardView">
-
-    <UserControl.Styles>
-        <Style Selector="Border.CardContainer">
+             x:Class="Theindie.Views.Components.GameCardView"
+             ClipToBounds="False"> <UserControl.Styles>
+        <Style Selector="Border.CardBase">
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Background" Value="{StaticResource BgCard}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GlassBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ClipToBounds" Value="True"/>
+            <Setter Property="BoxShadow" Value="0 4 10 0 #40000000"/>
             <Setter Property="Transitions">
                 <Transitions>
-                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" Easing="CircularEaseOut"/>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" Easing="CubicEaseOut"/>
                     <BoxShadowsTransition Property="BoxShadow" Duration="0:0:0.2"/>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.2"/>
                 </Transitions>
             </Setter>
-            <Setter Property="BoxShadow" Value="0 4 10 0 #40000000"/>
         </Style>
-        <Style Selector="Border.CardContainer:pointerover">
+        <Style Selector="Border.CardBase:pointerover">
             <Setter Property="RenderTransform" Value="translateY(-6px)"/>
-            <Setter Property="BoxShadow" Value="0 12 30 0 #80FF1F2F"/>
+            <Setter Property="BoxShadow" Value="0 15 35 0 #60FF1F2F"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentRed}"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="BorderBrush" Value="#FF1F2F"/>
+            <Setter Property="ZIndex" Value="99"/>
         </Style>
     </UserControl.Styles>
 
-    <Border Classes="CardContainer" CornerRadius="20" Background="#1A1A1A" BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1" ClipToBounds="True" Margin="10" PointerPressed="OnPointerPressed">
-        <Grid RowDefinitions="1.6*, *">
+    <Border Classes="CardBase" Margin="10,10,10,15" PointerPressed="OnPointerPressed">
+        <Grid RowDefinitions="1.5*, *">
             <Panel Grid.Row="0">
-                <Image Stretch="UniformToFill" Source="{Binding ImagePath}" Opacity="0.95"/>
-                <Border VerticalAlignment="Bottom" Height="80">
-                    <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0" Color="Transparent"/><GradientStop Offset="1" Color="#202020"/></LinearGradientBrush></Border.Background>
+                <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill"/>
+                <Border VerticalAlignment="Bottom" Height="60">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0" Color="Transparent"/><GradientStop Offset="1" Color="#141414"/></LinearGradientBrush>
+                    </Border.Background>
                 </Border>
-                <Border VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" CornerRadius="12" Background="#FF1F2F" Padding="10,5" BoxShadow="0 2 5 0 #40000000">
-                    <TextBlock Text="VIỆT HÓA" FontSize="11" FontWeight="Black" Foreground="White" LetterSpacing="0.5"/>
+                <Border VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8" CornerRadius="4" Background="{StaticResource AccentRed}" Padding="6,3" BoxShadow="0 2 4 0 #40000000">
+                    <TextBlock Text="VIỆT HÓA" FontSize="9" FontWeight="Black" Foreground="White" LetterSpacing="0.5"/>
                 </Border>
             </Panel>
-            <Border Grid.Row="1" Padding="16,14" Background="#202020" BorderBrush="#30FFFFFF" BorderThickness="0,1,0,0">
-                <StackPanel Spacing="6" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Title}" FontWeight="Black" FontSize="17" Foreground="White" TextWrapping="Wrap" LineHeight="22" MaxLines="2" TextTrimming="CharacterEllipsis"/>
-                    <StackPanel Orientation="Horizontal" Spacing="6">
-                        <Border Background="#20FFFFFF" CornerRadius="4" Padding="6,2"><TextBlock Text="{Binding Tags}" FontSize="10" Foreground="#BBBBBB"/></Border>
-                        <TextBlock Text="{Binding UpdateDate, StringFormat='• {0}'}" FontSize="11" Foreground="#666666" VerticalAlignment="Center"/>
+
+            <Border Grid.Row="1" Background="#141414" Padding="12">
+                <StackPanel Spacing="4" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="14" Foreground="White" TextTrimming="CharacterEllipsis" MaxLines="2"/>
+                    <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,4,0,0">
+                        <Border Background="#15FFFFFF" CornerRadius="3" Padding="5,2">
+                            <TextBlock Text="{Binding Tags}" FontSize="9" Foreground="#999999" MaxWidth="100" TextTrimming="CharacterEllipsis"/>
+                        </Border>
                     </StackPanel>
                 </StackPanel>
             </Border>
