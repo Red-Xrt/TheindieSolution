@@ -1,13 +1,14 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree; // Cần thêm thư viện này để tìm cha (FindAncestor)
 using System;
 
 namespace Theindie.Views.Components
 {
     public partial class GameDetailView : UserControl
     {
-        // Các sự kiện giao tiếp với bên ngoài
         public event EventHandler<RoutedEventArgs>? BackRequested;
         public event EventHandler<RoutedEventArgs>? InstallRequested;
         public event EventHandler<RoutedEventArgs>? UninstallRequested;
@@ -17,47 +18,63 @@ namespace Theindie.Views.Components
             InitializeComponent();
         }
 
-        // Logic xử lý nút Back và Install
-        private void BackButton_Click(object? sender, RoutedEventArgs e) => BackRequested?.Invoke(this, e);
-        private void InstallButton_Click(object? sender, RoutedEventArgs e) => InstallRequested?.Invoke(this, e);
+        // --- 👇 FIX LỖI: LOGIC KÉO CỬA SỔ AN TOÀN ---
+        private void OnRootPointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            // 1. Kiểm tra xem người dùng có đang bấm vào một cái Nút nào đó không?
+            var source = e.Source as Visual;
+            if (source.FindAncestorOfType<Button>() != null)
+            {
+                // Nếu đang bấm nút -> Không kéo cửa sổ -> Để yên cho nút hoạt động
+                return;
+            }
 
-        // --- LOGIC HỘP THOẠI GỠ CÀI ĐẶT ---
+            // 2. Nếu bấm vào vùng trống -> Cho phép kéo
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            {
+                var topLevel = TopLevel.GetTopLevel(this) as Window;
+                topLevel?.BeginMoveDrag(e);
+            }
+        }
+        // ---------------------------------------------
 
-        // 1. Hiện hộp thoại
+        private void BackButton_Click(object? sender, RoutedEventArgs e)
+        {
+            e.Handled = true; // Chặn sự kiện lan ra ngoài
+            BackRequested?.Invoke(this, e);
+        }
+
+        private void InstallButton_Click(object? sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            InstallRequested?.Invoke(this, e);
+        }
+
         private void UninstallButton_Click(object? sender, RoutedEventArgs e)
         {
+            e.Handled = true; // Quan trọng: Chặn sự kiện để không kích hoạt kéo cửa sổ
             if (UninstallConfirmOverlay != null)
             {
                 UninstallConfirmOverlay.IsVisible = true;
             }
         }
 
-        // 2. Ẩn hộp thoại (Hủy)
         private void CancelUninstall_Click(object? sender, RoutedEventArgs e)
         {
+            e.Handled = true;
             if (UninstallConfirmOverlay != null)
             {
                 UninstallConfirmOverlay.IsVisible = false;
             }
         }
-        private void OnRootPointerPressed(object? sender, PointerPressedEventArgs e)
-        {
-            // Chỉ kéo khi chuột trái nhấn vào vùng trống (không phải nút bấm)
-            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
-            {
-                // Tìm cửa sổ cha chứa UserControl này
-                var topLevel = TopLevel.GetTopLevel(this) as Window;
-                topLevel?.BeginMoveDrag(e);
-            }
-        }
-        // 3. Xác nhận gỡ (Đồng ý)
+
         private void ConfirmUninstall_Click(object? sender, RoutedEventArgs e)
         {
+            e.Handled = true;
             if (UninstallConfirmOverlay != null)
             {
                 UninstallConfirmOverlay.IsVisible = false;
             }
-            // Gửi tín hiệu ra MainWindow để xử lý logic gỡ
             UninstallRequested?.Invoke(this, e);
         }
     }
