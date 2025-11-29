@@ -13,6 +13,28 @@
                 </Animation>
             </Style.Animations>
         </Style>
+        
+        <Style Selector="Grid.InfoRow">
+            <Setter Property="Margin" Value="0,4"/> 
+        </Style>
+        <Style Selector="Grid.InfoRow PathIcon">
+            <Setter Property="Foreground" Value="#666"/>
+            <Setter Property="Width" Value="16"/> <Setter Property="Height" Value="16"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Grid.InfoRow TextBlock.Label">
+            <Setter Property="Foreground" Value="#999"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        <Style Selector="Grid.InfoRow TextBlock.Value">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/> </Style>
+        
         <Style Selector="Grid#UninstallConfirmOverlay[IsVisible=True] Border.DialogBox">
             <Style.Animations>
                 <Animation Duration="0:0:0.25" Easing="BackEaseOut" FillMode="Forward">
@@ -24,130 +46,150 @@
     </UserControl.Styles>
 
     <Grid Background="{StaticResource DeepBackground}">
-        
         <Panel>
-            <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Opacity="0.4">
-                <Image.Effect><BlurEffect Radius="80"/></Image.Effect>
-            </Image>
+            <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Opacity="0.4"><Image.Effect><BlurEffect Radius="80"/></Image.Effect></Image>
             <Border><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0" Color="#90050505"/><GradientStop Offset="1" Color="#050505"/></LinearGradientBrush></Border.Background></Border>
         </Panel>
 
         <Grid RowDefinitions="80, *" Margin="40,0">
             <Border Grid.Row="0" Background="Transparent" PointerPressed="OnRootPointerPressed"/>
-
             <Grid Grid.Row="0" VerticalAlignment="Center">
                 <Button Classes="GhostBtn" Click="BackButton_Click" Foreground="White" Opacity="0.7">
-                    <Button.Styles>
-                        <Style Selector="Button:pointerover"><Setter Property="Opacity" Value="1"/></Style>
-                    </Button.Styles>
-                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                        <TextBlock Text="←" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
-                        <TextBlock Text="QUAY LẠI THƯ VIỆN" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                    <Button.Styles><Style Selector="Button:pointerover"><Setter Property="Opacity" Value="1"/></Style></Button.Styles>
+                    <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                        <PathIcon Data="{StaticResource IconBack}" Width="18"/>
+                        <TextBlock Text="QUAY LẠI" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </Grid>
 
-            <Grid Grid.Row="1" ColumnDefinitions="*, 360" Margin="0,0,0,40">
-                <ScrollViewer Grid.Column="0" Padding="0,0,50,0" VerticalScrollBarVisibility="Hidden">
-                    <StackPanel Classes="AnimEntry" Spacing="30">
-                        <StackPanel Spacing="10">
-                            <TextBlock Text="{Binding Title}" FontWeight="Black" FontSize="64" Foreground="White" LineHeight="64" TextWrapping="Wrap"/>
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <Border Background="{StaticResource PrimaryRed}" CornerRadius="8" Padding="8,4"><TextBlock Text="VIỆT HÓA" FontSize="11" FontWeight="Bold" Foreground="White"/></Border>
-                                <Border Background="#20FFFFFF" CornerRadius="4" Padding="10,4"><TextBlock Text="{Binding Tags}" FontSize="12" Foreground="#DDD"/></Border>
-                                <Border Background="#20FFFFFF" CornerRadius="4" Padding="10,4"><TextBlock Text="⭐ 4.9/5" FontSize="12" Foreground="#FFD700" FontWeight="Bold"/></Border>
+            <Grid Grid.Row="1" ColumnDefinitions="*, 50, 400" Margin="0,0,0,40">
+                
+                <ScrollViewer Grid.Column="0" Padding="0,0,20,0" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel Classes="AnimEntry" Spacing="35">
+                        <StackPanel Spacing="15">
+                            <TextBlock Text="{Binding Title}" FontWeight="Black" FontSize="64" Foreground="White" LineHeight="64" TextWrapping="Wrap" LetterSpacing="-1"/>
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <Border Background="{StaticResource PrimaryRed}" CornerRadius="8" Padding="10,5"><TextBlock Text="VIỆT HÓA" FontSize="11" FontWeight="Bold" Foreground="White"/></Border>
+                                <Border Background="#20FFFFFF" CornerRadius="4" Padding="12,5"><TextBlock Text="{Binding Tags}" FontSize="13" Foreground="#DDD"/></Border>
+                                <Border Background="#20FFFFFF" CornerRadius="4" Padding="12,5"><TextBlock Text="⭐ 4.9/5" FontSize="13" Foreground="#FFD700" FontWeight="Bold"/></Border>
                             </StackPanel>
                         </StackPanel>
 
-                        <Border Height="400" CornerRadius="12" Background="Black" BorderBrush="#30FFFFFF" BorderThickness="1" ClipToBounds="True">
+                        <Border Height="420" CornerRadius="16" Background="Black" BorderBrush="#30FFFFFF" BorderThickness="1" ClipToBounds="True" BoxShadow="0 10 40 0 #50000000">
                             <Panel>
-                                <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Opacity="0.5"/>
-                                <Border Width="70" Height="70" CornerRadius="35" Background="#80000000" BorderBrush="White" BorderThickness="2">
-                                    <TextBlock Text="▶" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="28" Margin="5,0,0,0"/>
-                                </Border>
+                                <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Opacity="0.6"/>
+                                <Border Width="80" Height="80" CornerRadius="40" Background="#80000000" BorderBrush="{StaticResource PrimaryRed}" BorderThickness="2"><PathIcon Data="{StaticResource IconPlay}" Width="30" Height="30" Foreground="White" Margin="4,0,0,0"/></Border>
                             </Panel>
                         </Border>
 
-                        <StackPanel Spacing="10">
-                            <TextBlock Text="GIỚI THIỆU" FontWeight="Bold" FontSize="18" Foreground="White"/>
-                            <TextBlock Text="{Binding Description}" Foreground="#BBB" FontSize="15" LineHeight="26" TextWrapping="Wrap"/>
+                        <StackPanel Spacing="15">
+                            <TextBlock Text="GIỚI THIỆU GAME" FontWeight="Bold" FontSize="20" Foreground="White" LetterSpacing="1"/>
+                            <TextBlock Text="{Binding Description}" Foreground="#CCC" FontSize="16" LineHeight="28" TextWrapping="Wrap"/>
                         </StackPanel>
                         <Panel Height="50"/> 
                     </StackPanel>
                 </ScrollViewer>
 
-                <Border Grid.Column="1" Background="#141414" CornerRadius="16" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1" Padding="25" VerticalAlignment="Top">
-                    <StackPanel Spacing="25">
-                        <Border CornerRadius="8" ClipToBounds="True" Height="240" BoxShadow="0 10 30 0 #50000000">
+                <Border Grid.Column="2" Background="#141414" CornerRadius="16" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1" Padding="30" VerticalAlignment="Top" BoxShadow="0 10 30 0 #50000000">
+                    <StackPanel Spacing="30">
+                        <Border CornerRadius="12" ClipToBounds="True" Height="260" BoxShadow="0 10 30 0 #50000000" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
                             <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill"/>
                         </Border>
 
-                        <StackPanel Spacing="15">
-                            <TextBlock Text="THÔNG TIN" FontWeight="Bold" Foreground="#666" FontSize="11" LetterSpacing="1"/>
-                            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto, *" ShowGridLines="False">
-                                <TextBlock Grid.Row="0" Grid.Column="0" Foreground="#888" Text="Phiên bản" Margin="0,0,0,12"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Text="{Binding Version}" Margin="0,0,0,12"/>
-                                <TextBlock Grid.Row="1" Grid.Column="0" Foreground="#888" Text="Dung lượng" Margin="0,0,0,12"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Text="{Binding Size}" Margin="0,0,0,12"/>
-                                <TextBlock Grid.Row="2" Grid.Column="0" Foreground="#888" Text="Cập nhật"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Text="{Binding UpdateDate}"/>
-                            </Grid>
+                        <StackPanel Spacing="20">
+                            <TextBlock Text="THÔNG TIN CHI TIẾT" FontWeight="Black" Foreground="#666" FontSize="12" LetterSpacing="1"/>
+                            
+                            <StackPanel Spacing="18">
+                                <Grid Classes="InfoRow" ColumnDefinitions="Auto, *">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <PathIcon Data="{StaticResource IconTag}"/>
+                                        <TextBlock Classes="Label" Text="Phiên bản"/>
+                                    </StackPanel>
+                                    <TextBlock Classes="Value" Grid.Column="1" Text="{Binding Version}"/>
+                                </Grid>
+                                <Separator Background="#15FFFFFF"/>
+                                
+                                <Grid Classes="InfoRow" ColumnDefinitions="Auto, *">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <PathIcon Data="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V13H11V18H15Z" Width="16"/>
+                                        <TextBlock Classes="Label" Text="Dung lượng"/>
+                                    </StackPanel>
+                                    <TextBlock Classes="Value" Grid.Column="1" Text="{Binding Size}"/>
+                                </Grid>
+                                <Separator Background="#15FFFFFF"/>
+                                
+                                <Grid Classes="InfoRow" ColumnDefinitions="Auto, *">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <PathIcon Data="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z" Width="16"/>
+                                        <TextBlock Classes="Label" Text="Cập nhật"/>
+                                    </StackPanel>
+                                    <TextBlock Classes="Value" Grid.Column="1" Text="{Binding UpdateDate}"/>
+                                </Grid>
+                            </StackPanel>
                         </StackPanel>
-                        <Separator Background="#20FFFFFF" Height="1"/>
 
                         <Panel>
-                            <Button IsVisible="{Binding !IsInstalled}"
-                                    Classes="Primary" Height="54" HorizontalAlignment="Stretch" 
-                                    Click="InstallButton_Click">
-                                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="⬇" FontSize="20" FontWeight="Black" VerticalAlignment="Center"/>
-                                    <TextBlock Text="CÀI ĐẶT VIỆT HÓA" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Button IsVisible="{Binding !IsInstalled}" Classes="Primary" Height="60" HorizontalAlignment="Stretch" Click="InstallButton_Click">
+                                <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <PathIcon Data="{StaticResource IconInstall}" Width="24" Height="24"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="CÀI ĐẶT NGAY" FontSize="16" FontWeight="Black"/>
+                                        <TextBlock Text="Phiên bản Việt Hóa mới nhất" FontSize="12" Opacity="0.8"/>
+                                    </StackPanel>
                                 </StackPanel>
                             </Button>
 
-                            <Button IsVisible="{Binding IsInstalled}"
-                                    Background="#25FFFFFF" BorderBrush="#E81123" BorderThickness="1"
-                                    CornerRadius="6" Height="54" HorizontalAlignment="Stretch" 
-                                    Click="UninstallButton_Click">
-                                <Button.Styles>
-                                    <Style Selector="Button:pointerover /template/ ContentPresenter">
-                                        <Setter Property="Background" Value="#20E81123"/>
-                                        <Setter Property="BorderBrush" Value="#FF1F2F"/>
-                                    </Style>
-                                </Button.Styles>
-                                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="🗑" FontSize="18" Foreground="#E81123" VerticalAlignment="Center"/>
-                                    <TextBlock Text="GỠ VIỆT HÓA" FontSize="15" FontWeight="Bold" Foreground="#E81123" VerticalAlignment="Center"/>
+                            <Button IsVisible="{Binding IsInstalled}" Background="#25FFFFFF" BorderBrush="#E81123" BorderThickness="2" CornerRadius="8" Height="60" HorizontalAlignment="Stretch" Click="UninstallButton_Click">
+                                <Button.Styles><Style Selector="Button:pointerover /template/ ContentPresenter"><Setter Property="Background" Value="#20E81123"/><Setter Property="BorderBrush" Value="#FF1F2F"/></Style></Button.Styles>
+                                <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <PathIcon Data="{StaticResource IconUninstall}" Width="24" Height="24" Foreground="#E81123"/>
+                                    <TextBlock Text="GỠ CÀI ĐẶT" FontSize="16" FontWeight="Black" Foreground="#E81123" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Button>
                         </Panel>
-                        
-                        <TextBlock Text="An toàn &amp; Miễn phí" HorizontalAlignment="Center" FontSize="11" Foreground="#555" FontStyle="Italic"/>
+                        <TextBlock Text="An toàn tuyệt đối &amp; Hoàn toàn miễn phí" HorizontalAlignment="Center" FontSize="11" Foreground="#666"/>
                     </StackPanel>
                 </Border>
             </Grid>
         </Grid>
 
         <Grid Name="UninstallConfirmOverlay" IsVisible="False" Background="#CC000000">
-            <Border Classes="DialogBox" Width="420" VerticalAlignment="Center" HorizontalAlignment="Center" 
+            <Border Classes="DialogBox" Width="460" VerticalAlignment="Center" HorizontalAlignment="Center" 
                     CornerRadius="16" BorderThickness="1" BorderBrush="#30FFFFFF" Background="#1A1A1A"
-                    BoxShadow="0 20 60 0 #80000000">
+                    BoxShadow="0 25 80 0 #A0000000">
                 <Border Padding="30">
-                    <StackPanel Spacing="25">
-                        <StackPanel Spacing="15">
-                            <TextBlock Text="⚠️ XÁC NHẬN GỠ" FontWeight="Black" FontSize="20" Foreground="#E81123" HorizontalAlignment="Center"/>
-                            <TextBlock TextAlignment="Center" Foreground="#AAA" TextWrapping="Wrap" FontSize="14" LineHeight="22">
-                                Bạn có chắc muốn xóa bản Việt Hóa của <Run Text="{Binding Title}" Foreground="White" FontWeight="Bold"/> không?
+                    <StackPanel Spacing="30">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+                            <Border Width="40" Height="40" CornerRadius="20" Background="#20E81123">
+                                <TextBlock Text="⚠️" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="XÁC NHẬN GỠ CÀI ĐẶT" FontWeight="Black" FontSize="20" Foreground="#E81123" VerticalAlignment="Center" LetterSpacing="0.5"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="Hành động này sẽ xóa bản Việt Hóa khỏi máy tính." Foreground="#BBB" HorizontalAlignment="Center" FontSize="14"/>
+                            <TextBlock TextAlignment="Center" Foreground="#AAA" TextWrapping="Wrap" FontSize="14" LineHeight="24">
+                                Bạn có chắc muốn xóa <Run Text="{Binding Title}" Foreground="White" FontWeight="Bold" FontSize="15"/> không?
                             </TextBlock>
                         </StackPanel>
-                        <Grid ColumnDefinitions="*, 15, *">
+
+                        <Grid ColumnDefinitions="*, 20, *">
                             <Button Grid.Column="0" Content="HỦY BỎ" Click="CancelUninstall_Click" 
-                                    Background="Transparent" BorderThickness="1" BorderBrush="#444" CornerRadius="6" Foreground="#CCC" Height="40"/>
+                                    Background="Transparent" BorderThickness="1" BorderBrush="#444" CornerRadius="8" 
+                                    Foreground="#CCC" Height="45" FontWeight="Bold" HorizontalAlignment="Stretch"/>
+                            
                             <Button Grid.Column="2" Click="ConfirmUninstall_Click" 
-                                    Background="#E81123" CornerRadius="6" Foreground="White" FontWeight="Bold" Height="40">
+                                    Background="#E81123" CornerRadius="8" Height="45" HorizontalAlignment="Stretch" BorderThickness="0">
+                                <Button.Styles>
+                                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                        <Setter Property="Background" Value="#C40D1C"/>
+                                        <Setter Property="BoxShadow" Value="0 0 15 0 #40E81123"/>
+                                    </Style>
+                                </Button.Styles>
                                 <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <TextBlock Text="✓" VerticalAlignment="Center"/>
-                                    <TextBlock Text="ĐỒNG Ý" VerticalAlignment="Center"/>
+                                    <PathIcon Data="{StaticResource IconCheck}" Width="14" Foreground="White"/>
+                                    <TextBlock Text="ĐỒNG Ý GỠ" Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Button>
                         </Grid>

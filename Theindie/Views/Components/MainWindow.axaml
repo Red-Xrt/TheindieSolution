@@ -14,12 +14,15 @@
     <Window.Resources>
         <DataTemplate x:Key="GameListTemplate" x:DataType="vm:MainWindowViewModel">
             <StackPanel Spacing="20">
-                <TextBlock Text="DANH SÁCH GAME" FontWeight="Black" FontSize="14" Foreground="#666" LetterSpacing="1"/>
+                <Grid ColumnDefinitions="Auto, *">
+                    <TextBlock Text="DANH SÁCH GAME" FontWeight="Black" FontSize="14" Foreground="#666" LetterSpacing="1"/>
+                    <Separator Grid.Column="1" Margin="20,0,0,0" Background="#20FFFFFF"/>
+                </Grid>
                 <ItemsControl ItemsSource="{Binding Games}">
-                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel Margin="-8"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel Margin="-10"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="models:GameInfo">
-                            <components:GameCardView Width="220" Height="330" Click="OnGameCardClick"/>
+                            <components:GameCardView Width="230" Height="340" Click="OnGameCardClick"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -28,62 +31,68 @@
     </Window.Resources>
 
     <Panel PointerPressed="OnRootPointerPressed">
-        <Border Background="#050505"/>
+        <Border Background="{StaticResource DeepBackground}"/>
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
-            <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintColor="Black" TintOpacity="0.8" MaterialOpacity="0.5"/>
-            </ExperimentalAcrylicBorder.Material>
+             <ExperimentalAcrylicBorder.Material>
+                 <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintColor="Black" TintOpacity="0.9" MaterialOpacity="0.2"/>
+             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
 
         <Grid ColumnDefinitions="260, *">
-            <Border Grid.Column="0" Background="#08FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="25">
+            <Border Grid.Column="0" Background="#05FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="25">
                 <Grid RowDefinitions="Auto, *, Auto">
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="0,15,0,50">
-                        <Border Width="40" Height="40" Background="{StaticResource PrimaryRed}" CornerRadius="8" BoxShadow="0 0 20 0 #40FF1F2F">
-                            <TextBlock Text="TI" Foreground="White" FontWeight="Black" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Border Width="44" Height="44" Background="{StaticResource RedGradient}" CornerRadius="10" BoxShadow="0 0 25 0 #50FF1F2F" BorderBrush="#FF5F6F" BorderThickness="1">
+                            <TextBlock Text="TI" Foreground="White" FontWeight="Black" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="THE INDIE" FontWeight="Black" FontSize="18" Foreground="White" LetterSpacing="0.5"/>
-                            <TextBlock Text="LAUNCHER" FontSize="10" Foreground="#666" FontWeight="Bold" LetterSpacing="3"/>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock Text="LAUNCHER" FontSize="10" Foreground="#666" FontWeight="Bold" LetterSpacing="2"/>
+                                <Border Background="{StaticResource PrimaryRed}" CornerRadius="2" Padding="4,1"><TextBlock Text="PRO" FontSize="8" FontWeight="Black" Foreground="White"/></Border>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Spacing="8">
-                        <TextBlock Text="MENU" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,0,0,10" LetterSpacing="1"/>
+                        <TextBlock Text="MAIN MENU" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,0,0,10" LetterSpacing="1"/>
                         
                         <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="0">
                             <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
-                                <TextBlock Text="🏠" FontSize="16" VerticalAlignment="Center"/> <TextBlock Text="Trang Chủ" VerticalAlignment="Center"/>
+                                <PathIcon Data="{StaticResource IconHome}"/> <TextBlock Text="Trang Chủ" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
+                        
                         <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="1">
                             <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
-                                <TextBlock Text="✅" FontSize="16" VerticalAlignment="Center"/> <TextBlock Text="Đã Cài Đặt" VerticalAlignment="Center"/>
+                                <PathIcon Data="{StaticResource IconCheck}"/> <TextBlock Text="Đã Cài Đặt" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
                         <TextBlock Text="SYSTEM" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,25,0,10" LetterSpacing="1"/>
                         <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="2">
                             <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
-                                <TextBlock Text="⬇" FontSize="16" VerticalAlignment="Center"/> <TextBlock Text="Tải Xuống" VerticalAlignment="Center"/>
+                                <PathIcon Data="{StaticResource IconDownload}"/> <TextBlock Text="Tải Xuống" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                         <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="3">
                             <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
-                                <TextBlock Text="⚙" FontSize="16" VerticalAlignment="Center"/> <TextBlock Text="Cấu Hình" VerticalAlignment="Center"/>
+                                <PathIcon Data="{StaticResource IconSettings}"/> <TextBlock Text="Cấu Hình" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
 
                     <Border Grid.Row="2" Background="#08FFFFFF" CornerRadius="12" Padding="12" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
                         <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                            <Border Width="36" Height="36" CornerRadius="18" Background="#20FFFFFF" ClipToBounds="True">
-                                <TextBlock Text="👤" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Border Width="40" Height="40" CornerRadius="20" BorderBrush="{StaticResource PrimaryRed}" BorderThickness="2" Padding="2">
+                                <Border Background="#30FFFFFF" CornerRadius="20" ClipToBounds="True">
+                                    <PathIcon Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" Foreground="#AAA" Width="24" Height="24"/>
+                                </Border>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Game Thủ" FontWeight="Bold" Foreground="White" FontSize="13"/>
+                                <TextBlock Text="Administrator" FontWeight="Bold" Foreground="White" FontSize="13"/>
                                 <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,2,0,0">
-                                    <Border Width="6" Height="6" CornerRadius="3" Background="#4ade80" VerticalAlignment="Center"/>
+                                    <Border Width="8" Height="8" CornerRadius="4" Background="#4ade80" VerticalAlignment="Center" BoxShadow="0 0 8 0 #4ade80"/>
                                     <TextBlock Text="Online" FontSize="11" Foreground="#4ade80"/>
                                 </StackPanel>
                             </StackPanel>
@@ -98,7 +107,11 @@
                         <StackPanel Grid.Column="0" VerticalAlignment="Center">
                             <TextBlock Text="{Binding PageTitle}" FontWeight="Black" FontSize="24" Foreground="White" LetterSpacing="-0.5"/>
                         </StackPanel>
-                        <TextBox Grid.Column="1" Text="{Binding SearchText}" Classes="SearchInput" Watermark="Tìm kiếm game..." VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Text="{Binding SearchText}" Classes="SearchInput" Watermark="Tìm kiếm game..." VerticalAlignment="Center">
+                            <TextBox.InnerRightContent>
+                                <PathIcon Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" Width="16" Height="16" Foreground="#666" Margin="0,0,10,0"/>
+                            </TextBox.InnerRightContent>
+                        </TextBox>
                     </Grid>
                 </Grid>
 
@@ -109,19 +122,25 @@
                     
                     <ScrollViewer Padding="40,0,40,40">
                         <StackPanel Spacing="35">
-                            <Border Height="300" CornerRadius="16" ClipToBounds="True" BoxShadow="0 20 60 0 #60000000">
+                            <Border Height="300" CornerRadius="16" ClipToBounds="True" BoxShadow="0 20 60 0 #60000000" BorderBrush="{StaticResource PrimaryRed}" BorderThickness="0,0,0,2">
                                 <Panel>
-                                    <Image Source="/Assets/Icons/Logo.ico" Stretch="UniformToFill" Opacity="0.7">
-                                        <Image.Effect><BlurEffect Radius="0"/></Image.Effect>
-                                    </Image>
+                                    <Image Source="/Assets/Icons/Logo.ico" Stretch="UniformToFill" Opacity="0.7"/>
                                     <Border Background="{StaticResource BgDark}" Opacity="0.3"/>
                                     <Border><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0.4" Color="Transparent"/><GradientStop Offset="1" Color="#050505"/></LinearGradientBrush></Border.Background></Border>
                                     
                                     <StackPanel VerticalAlignment="Bottom" Margin="40">
-                                        <Border Background="#30000000" CornerRadius="4" HorizontalAlignment="Left" Padding="8,4" Margin="0,0,0,10"><TextBlock Text="FEATURED UPDATE" Foreground="#FF1F2F" FontWeight="Black" FontSize="11" LetterSpacing="2"/></Border>
+                                        <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                                            <Border Background="{StaticResource PrimaryRed}" CornerRadius="4" Padding="8,4"><TextBlock Text="HOT" Foreground="White" FontWeight="Black" FontSize="11"/></Border>
+                                            <Border Background="#30FFFFFF" CornerRadius="4" Padding="8,4"><TextBlock Text="BẢN CẬP NHẬT MỚI" Foreground="White" FontWeight="Bold" FontSize="11"/></Border>
+                                        </StackPanel>
                                         <TextBlock Text="STARDEW VALLEY" FontWeight="Black" FontSize="48" Foreground="White" LineHeight="45"/>
                                         <TextBlock Text="Đã cập nhật bản Việt Hóa v1.5.6 đầy đủ DLC." Foreground="#CCC" FontSize="16" Margin="0,10,0,20"/>
-                                        <Button Classes="Primary" Content="XEM NGAY" HorizontalAlignment="Left"/>
+                                        <Button Classes="Primary" HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <PathIcon Data="{StaticResource IconPlay}" Width="16"/>
+                                                <TextBlock Text="XEM CHI TIẾT" FontWeight="Bold"/>
+                                            </StackPanel>
+                                        </Button>
                                     </StackPanel>
                                 </Panel>
                             </Border>
