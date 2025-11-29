@@ -39,7 +39,8 @@ namespace Theindie.Views
 
         private void OnRootPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            this.Focus();
+            var topLevel = TopLevel.GetTopLevel(this);
+            topLevel?.FocusManager?.ClearFocus();
         }
 
         // --- CÁC HÀM CŨ GIỮ NGUYÊN ---

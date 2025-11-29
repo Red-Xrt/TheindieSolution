@@ -16,7 +16,7 @@
         Width="1280" Height="800"
         WindowStartupLocation="CenterScreen">
 
-    <Panel PointerPressed="OnRootPointerPressed">
+   <Panel PointerPressed="OnRootPointerPressed" Background="Transparent">
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintColor="#050505" TintOpacity="0.95" MaterialOpacity="0.8"/>
