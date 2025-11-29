@@ -15,7 +15,38 @@
         
         Width="1280" Height="800"
         WindowStartupLocation="CenterScreen">
+    <Window.Styles>
+        <Style Selector="Button.SidebarItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#888888"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                    <BrushTransition Property="Foreground" Duration="0:0:0.2"/>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
 
+        <Style Selector="Button.SidebarItem:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#10FFFFFF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="RenderTransform" Value="translateX(4px)"/> </Style>
+
+        <Style Selector="Button.SidebarItem.Active">
+            <Setter Property="Background" Value="#15FF1F2F"/> <Setter Property="Foreground" Value="#FF1F2F"/>   </Style>
+        <Style Selector="Button.SidebarItem.Active /template/ ContentPresenter">
+            <Setter Property="Background" Value="#15FF1F2F"/>
+            <Setter Property="Foreground" Value="#FF1F2F"/>
+        </Style>
+    </Window.Styles>
    <Panel PointerPressed="OnRootPointerPressed" Background="Transparent">
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
@@ -24,19 +55,67 @@
         </ExperimentalAcrylicBorder>
 
         <Grid ColumnDefinitions="240, *">
-            <Border Grid.Column="0" Background="#05FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="20">
-                <StackPanel Spacing="20">
-                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,10,0,30">
-                        <Border Width="32" Height="32" Background="{StaticResource AccentRed}" CornerRadius="8">
-                            <TextBlock Text="TI" Foreground="White" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                        <TextBlock Text="THE INDIE" FontWeight="Black" FontSize="20" VerticalAlignment="Center"/>
-                    </StackPanel>
+<Border Grid.Column="0" Background="#05FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="20">
+                <Grid RowDefinitions="Auto, *, Auto">
                     
-                    <TextBlock Text="MENU" FontSize="11" Foreground="#555" FontWeight="Bold"/>
-                    <Button Background="Transparent" Content="🏠  Khám Phá" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                    <Button Background="Transparent" Content="📚  Thư Viện" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                </StackPanel>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" Margin="0,10,0,40">
+                        <Border Width="36" Height="36" Background="{StaticResource AccentRed}" CornerRadius="10" BoxShadow="0 4 12 0 #40FF1F2F">
+                            <TextBlock Text="TI" Foreground="White" FontWeight="Black" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Spacing="-2">
+                            <TextBlock Text="THE INDIE" FontWeight="Black" FontSize="18" LetterSpacing="1"/>
+                            <TextBlock Text="LAUNCHER" FontSize="10" Foreground="#666" FontWeight="Bold" LetterSpacing="2"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Spacing="6">
+                        <TextBlock Text="MENU CHÍNH" FontSize="10" Foreground="#444" FontWeight="Bold" Margin="16,0,0,8"/>
+                        
+                        <Button Classes="SidebarItem Active">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="🔥"/> <TextBlock Text="Khám Phá"/>
+                            </StackPanel>
+                        </Button>
+                        
+                        <Button Classes="SidebarItem">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="📚"/> <TextBlock Text="Thư Viện"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Text="HỆ THỐNG" FontSize="10" Foreground="#444" FontWeight="Bold" Margin="16,20,0,8"/>
+                        
+                        <Button Classes="SidebarItem">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="⬇"/> <TextBlock Text="Tải Xuống"/>
+                            </StackPanel>
+                        </Button>
+                        
+                        <Button Classes="SidebarItem">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="⚙"/> <TextBlock Text="Cài Đặt"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <Border Grid.Row="2" Background="#08FFFFFF" CornerRadius="12" Padding="12" Margin="0,20,0,0" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Border Width="36" Height="36" CornerRadius="18" Background="#333" ClipToBounds="True">
+                                <Panel>
+                                    <TextBlock Text="👤" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
+                                </Panel>
+                            </Border>
+                            
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Game Thủ" FontWeight="Bold" Foreground="White" FontSize="13"/>
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <Border Width="6" Height="6" CornerRadius="3" Background="#4ade80" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Online" FontSize="11" Foreground="#4ade80"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </Border>
 
             <Grid Grid.Column="1" RowDefinitions="60, *">
@@ -69,6 +148,14 @@
                         <StackPanel Spacing="15">
                             <TextBlock Text="DANH SÁCH GAME" FontWeight="Bold" FontSize="16" Foreground="White"/>
                             <ItemsControl ItemsSource="{Binding Games}">
+                                <ItemsControl.Styles>
+                                    <Style Selector="ContentPresenter">
+                                        <Setter Property="ZIndex" Value="0"/>
+                                    </Style>
+                                    <Style Selector="ContentPresenter:pointerover">
+                                        <Setter Property="ZIndex" Value="100"/>
+                                    </Style>
+                                </ItemsControl.Styles>
                                 <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel Margin="-6"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="models:GameInfo">
