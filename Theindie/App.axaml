@@ -97,16 +97,19 @@
             <Setter Property="CornerRadius" Value="8"/>
         </Style>
 
-        <Style Selector="Button.SidebarItem">
+<Style Selector="Button.SidebarItem">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource TextGray}"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Padding" Value="16,12"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            
+            <Setter Property="Padding" Value="0,14"/> 
+            
+            <Setter Property="CornerRadius" Value="0"/> 
+            
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Transitions"><Transitions><BrushTransition Property="Foreground" Duration="0:0:0.2"/><BrushTransition Property="Background" Duration="0:0:0.2"/><TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/></Transitions></Setter>
+            <Setter Property="Transitions"><Transitions><BrushTransition Property="Foreground" Duration="0:0:0.2"/><BrushTransition Property="Background" Duration="0:0:0.2"/></Transitions></Setter>
         </Style>
         <Style Selector="Button.SidebarItem PathIcon">
             <Setter Property="Foreground" Value="{StaticResource TextGray}"/>
@@ -115,7 +118,6 @@
         
         <Style Selector="Button.SidebarItem:not(.Active):pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="#10FFFFFF"/>
-            <Setter Property="RenderTransform" Value="translateX(5px)"/>
         </Style>
         
         <Style Selector="Button.SidebarItem:not(.Active):pointerover PathIcon">
@@ -125,10 +127,8 @@
         <Style Selector="Button.SidebarItem.Active"><Setter Property="Foreground" Value="White"/><Setter Property="FontWeight" Value="Bold"/></Style>
         <Style Selector="Button.SidebarItem.Active PathIcon"><Setter Property="Foreground" Value="{StaticResource PrimaryRed}"/></Style>
         <Style Selector="Button.SidebarItem.Active /template/ ContentPresenter">
-            <Setter Property="Background" Value="#15FF1F2F"/>
-            <Setter Property="BorderBrush" Value="{StaticResource PrimaryRed}"/>
-            <Setter Property="BorderThickness" Value="0,0,3,0"/> 
-        </Style>
+            <Setter Property="Background" Value="#15FF1F2F"/> <Setter Property="BorderBrush" Value="{StaticResource PrimaryRed}"/>
+            <Setter Property="BorderThickness" Value="3,0,0,0"/> </Style>
 
         <Style Selector="Button.WindowControl"><Setter Property="Background" Value="Transparent"/><Setter Property="Width" Value="46"/><Setter Property="Height" Value="32"/><Setter Property="HorizontalContentAlignment" Value="Center"/><Setter Property="VerticalContentAlignment" Value="Center"/><Setter Property="Foreground" Value="#AAAAAA"/></Style>
         <Style Selector="Button.WindowControl:pointerover /template/ ContentPresenter"><Setter Property="Background" Value="#20FFFFFF"/><Setter Property="Foreground" Value="White"/></Style>

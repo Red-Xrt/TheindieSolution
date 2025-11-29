@@ -51,7 +51,7 @@
                         PointerEntered="OnSidebarPointerEntered" 
                         PointerExited="OnSidebarPointerExited"
                         Background="Transparent"
-                        Padding="0,25"> 
+                        Padding="0,30"> 
                     
                     <Grid RowDefinitions="Auto, *, Auto" Background="Transparent">
                         
@@ -70,15 +70,15 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="1" Spacing="8" Background="Transparent">
-                            <TextBlock Text="MAIN MENU" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,0,0,10" LetterSpacing="1"/>
+                        <StackPanel Grid.Row="1" Spacing="2" Background="Transparent">
+                            <TextBlock Text="MAIN MENU" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="20,0,0,10" LetterSpacing="1"/>
                             
                             <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="0" 
                                     Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=0}"
                                     ToolTip.Tip="Trang Chủ">
                                 <StackPanel Orientation="Horizontal">
-                                    <Grid Width="44" Height="24"><PathIcon Data="{StaticResource IconHome}" HorizontalAlignment="Center"/></Grid>
-                                    <TextBlock Text="Trang Chủ" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <Grid Width="70" Height="24"><PathIcon Data="{StaticResource IconHome}" HorizontalAlignment="Center"/></Grid>
+                                    <TextBlock Text="Trang Chủ" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Button>
                             
@@ -86,20 +86,20 @@
                                     Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=1}"
                                     ToolTip.Tip="Đã Cài Đặt">
                                 <StackPanel Orientation="Horizontal">
-                                    <Grid Width="44" Height="24"><PathIcon Data="{StaticResource IconCheck}" HorizontalAlignment="Center"/></Grid>
-                                    <TextBlock Text="Đã Cài Đặt" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <Grid Width="70" Height="24"><PathIcon Data="{StaticResource IconCheck}" HorizontalAlignment="Center"/></Grid>
+                                    <TextBlock Text="Đã Cài Đặt" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Button>
 
-                            <Separator Background="#10FFFFFF" Margin="10,20"/>
+                            <Separator Background="#10FFFFFF" Margin="20,20"/>
 
-                            <TextBlock Text="SYSTEM" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,0,0,10" LetterSpacing="1"/>
+                            <TextBlock Text="SYSTEM" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="20,0,0,10" LetterSpacing="1"/>
                             <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="2" 
                                     Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=2}"
                                     ToolTip.Tip="Tải Xuống">
                                 <StackPanel Orientation="Horizontal">
-                                    <Grid Width="44" Height="24"><PathIcon Data="{StaticResource IconDownload}" HorizontalAlignment="Center"/></Grid>
-                                    <TextBlock Text="Tải Xuống" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <Grid Width="70" Height="24"><PathIcon Data="{StaticResource IconDownload}" HorizontalAlignment="Center"/></Grid>
+                                    <TextBlock Text="Tải Xuống" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Button>
                             
@@ -107,13 +107,13 @@
                                     Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=3}"
                                     ToolTip.Tip="Cấu Hình">
                                 <StackPanel Orientation="Horizontal">
-                                    <Grid Width="44" Height="24"><PathIcon Data="{StaticResource IconSettings}" HorizontalAlignment="Center"/></Grid>
-                                    <TextBlock Text="Cấu Hình" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <Grid Width="70" Height="24"><PathIcon Data="{StaticResource IconSettings}" HorizontalAlignment="Center"/></Grid>
+                                    <TextBlock Text="Cấu Hình" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
 
-                        <Border Grid.Row="2" Margin="10,0" Background="#08FFFFFF" CornerRadius="12" Padding="8" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
+                        <Border Grid.Row="2" Margin="15,0" Background="#08FFFFFF" CornerRadius="12" Padding="8" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
                             <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
                                 <Border Width="36" Height="36" CornerRadius="18" Background="#20FFFFFF" ClipToBounds="True">
                                     <PathIcon Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" Foreground="#AAA" Width="20" Height="20"/>

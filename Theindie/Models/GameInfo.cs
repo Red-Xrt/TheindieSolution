@@ -17,5 +17,6 @@ namespace Theindie.Models
         // TRẠNG THÁI QUAN TRỌNG: Đã cài đặt hay chưa?
         [ObservableProperty]
         private bool _isInstalled = false;
+        public bool IsVietHoa { get; set; } = true;
     }
 }
