@@ -26,29 +26,36 @@
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="Padding" Value="16,8"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Transitions">
-                <Transitions><BrushTransition Property="Background" Duration="0:0:0.2"/></Transitions>
-            </Setter>
+            <Setter Property="Transitions"><Transitions><BrushTransition Property="Background" Duration="0:0:0.2"/></Transitions></Setter>
         </Style>
         <Style Selector="Button.NavBack:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="#30FFFFFF"/>
         </Style>
+
+        <Style Selector="Grid#UninstallConfirmOverlay[IsVisible=True] Border.DialogBox">
+            <Style.Animations>
+                <Animation Duration="0:0:0.3" Easing="BackEaseOut" FillMode="Forward">
+                    <KeyFrame KeyTime="0:0:0">
+                        <Setter Property="Opacity" Value="0"/>
+                        <Setter Property="ScaleTransform.ScaleX" Value="0.8"/>
+                        <Setter Property="ScaleTransform.ScaleY" Value="0.8"/>
+                    </KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.3">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="ScaleTransform.ScaleX" Value="1"/>
+                        <Setter Property="ScaleTransform.ScaleY" Value="1"/>
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
     </UserControl.Styles>
 
-    <Grid Background="#050505">
+    <Grid Background="{StaticResource DeepBackground}">
         <Panel>
             <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Opacity="0.5">
-                <Image.Effect><BlurEffect Radius="100"/></Image.Effect> </Image>
-            <Border>
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Offset="0" Color="#60050505"/>
-                        <GradientStop Offset="0.4" Color="#90050505"/>
-                        <GradientStop Offset="1" Color="#050505"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
-            <Border Background="#05FFFFFF" IsHitTestVisible="False"/>
+                <Image.Effect><BlurEffect Radius="100"/></Image.Effect>
+            </Image>
+            <Border><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0" Color="#60050505"/><GradientStop Offset="1" Color="#050505"/></LinearGradientBrush></Border.Background></Border>
         </Panel>
 
         <Grid RowDefinitions="80, *" Margin="40,0">
@@ -62,25 +69,14 @@
             </Grid>
 
             <Grid Grid.Row="1" ColumnDefinitions="*, 340" Margin="0,0,0,40">
-                
                 <ScrollViewer Grid.Column="0" Padding="0,0,50,0" VerticalScrollBarVisibility="Hidden">
                     <StackPanel Classes="AnimEntry" Spacing="30">
-                        
                         <StackPanel Spacing="15">
-                            <TextBlock Text="{Binding Title}" FontWeight="Black" FontSize="56" Foreground="White" LineHeight="60" TextWrapping="Wrap" LetterSpacing="-1">
-                                <TextBlock.Effect><DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.5"/></TextBlock.Effect>
-                            </TextBlock>
-                            
+                            <TextBlock Text="{Binding Title}" FontWeight="Black" FontSize="56" Foreground="White" LineHeight="60" TextWrapping="Wrap" LetterSpacing="-1"/>
                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                <Border Background="{StaticResource AccentRed}" CornerRadius="4" Padding="8,4">
-                                    <TextBlock Text="VIỆT HÓA" FontSize="11" FontWeight="Bold" Foreground="White"/>
-                                </Border>
-                                <Border Background="#20FFFFFF" CornerRadius="4" Padding="10,4">
-                                    <TextBlock Text="{Binding Tags}" FontSize="12" Foreground="#DDD"/>
-                                </Border>
-                                <Border Background="#20FFFFFF" CornerRadius="4" Padding="10,4">
-                                    <TextBlock Text="⭐ 4.9/5" FontSize="12" Foreground="#FFD700" FontWeight="Bold"/>
-                                </Border>
+                                <Border Background="{StaticResource AccentRed}" CornerRadius="4" Padding="8,4"><TextBlock Text="VIỆT HÓA" FontSize="11" FontWeight="Bold" Foreground="White"/></Border>
+                                <Border Background="#20FFFFFF" CornerRadius="4" Padding="10,4"><TextBlock Text="{Binding Tags}" FontSize="12" Foreground="#DDD"/></Border>
+                                <Border Background="#20FFFFFF" CornerRadius="4" Padding="10,4"><TextBlock Text="⭐ 4.9/5" FontSize="12" Foreground="#FFD700" FontWeight="Bold"/></Border>
                             </StackPanel>
                         </StackPanel>
 
@@ -96,71 +92,100 @@
 
                         <StackPanel Spacing="10">
                             <TextBlock Text="GIỚI THIỆU" FontWeight="Bold" FontSize="18" Foreground="White"/>
-                            <TextBlock Text="{Binding Description}" Foreground="#CCCCCC" FontSize="15" LineHeight="26" TextWrapping="Wrap" TextAlignment="Left"/>
+                            <TextBlock Text="{Binding Description}" Foreground="#CCCCCC" FontSize="15" LineHeight="26" TextWrapping="Wrap"/>
                         </StackPanel>
-                        
-                        <Panel Height="50"/> </StackPanel>
+                        <Panel Height="50"/> 
+                    </StackPanel>
                 </ScrollViewer>
 
                 <Border Grid.Column="1" Background="#10FFFFFF" CornerRadius="20" BorderBrush="#20FFFFFF" BorderThickness="1" Padding="20" VerticalAlignment="Top">
                     <StackPanel Spacing="25">
-                        
                         <Border CornerRadius="12" ClipToBounds="True" Height="220" BoxShadow="0 8 25 0 #80000000">
                             <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill"/>
                         </Border>
 
                         <StackPanel Spacing="15">
                             <TextBlock Text="THÔNG TIN CHI TIẾT" FontWeight="Bold" Foreground="#888" FontSize="11" LetterSpacing="1"/>
-                            
                             <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto, *" ShowGridLines="False">
-                                <Grid.Styles>
-                                    <Style Selector="TextBlock.Label"><Setter Property="Foreground" Value="#AAA"/><Setter Property="VerticalAlignment" Value="Center"/><Setter Property="Margin" Value="0,0,0,12"/></Style>
-                                    <Style Selector="TextBlock.Value"><Setter Property="Foreground" Value="White"/><Setter Property="FontWeight" Value="SemiBold"/><Setter Property="HorizontalAlignment" Value="Right"/><Setter Property="Margin" Value="0,0,0,12"/></Style>
-                                </Grid.Styles>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Foreground="#AAA" Text="📂 Phiên bản" Margin="0,0,0,12"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Right" Text="{Binding Version}" Margin="0,0,0,12"/>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Classes="Label" Text="📂 Phiên bản"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Classes="Value" Text="{Binding Version}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Foreground="#AAA" Text="💾 Dung lượng" Margin="0,0,0,12"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Right" Text="{Binding Size}" Margin="0,0,0,12"/>
 
-                                <TextBlock Grid.Row="1" Grid.Column="0" Classes="Label" Text="💾 Dung lượng"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Classes="Value" Text="{Binding Size}"/>
-
-                                <TextBlock Grid.Row="2" Grid.Column="0" Classes="Label" Text="📅 Cập nhật"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" Classes="Value" Text="{Binding UpdateDate}"/>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Foreground="#AAA" Text="📅 Cập nhật"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Right" Text="{Binding UpdateDate}"/>
                             </Grid>
                         </StackPanel>
-
                         <Separator Background="#20FFFFFF" Height="1"/>
 
-                        <Button IsVisible="{Binding !IsInstalled}"
-                                Background="{StaticResource AccentGradient}" CornerRadius="8" Height="50" 
-                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                                Click="InstallButton_Click" Classes="Primary" BorderThickness="0">
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="⬇" FontWeight="Black" FontSize="18"/>
-                                <TextBlock Text="CÀI ĐẶT VIỆT HÓA" FontWeight="Black" FontSize="16"/>
-                            </StackPanel>
-                        </Button>
+                        <Panel>
+                            <Button IsVisible="{Binding !IsInstalled}"
+                                    Background="{StaticResource AccentGradient}" CornerRadius="8" Height="50" 
+                                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                    Click="InstallButton_Click" Classes="Primary" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <TextBlock Text="⬇" FontWeight="Black" FontSize="18"/>
+                                    <TextBlock Text="CÀI ĐẶT VIỆT HÓA" FontWeight="Black" FontSize="16"/>
+                                </StackPanel>
+                            </Button>
 
-                        <Button IsVisible="{Binding IsInstalled}"
-                                Background="#20FFFFFF" CornerRadius="8" Height="50" 
-                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                                Click="UninstallButton_Click" BorderThickness="1" BorderBrush="#30FFFFFF">
-                            <Button.Styles>
-                                <Style Selector="Button:pointerover /template/ ContentPresenter">
-                                    <Setter Property="Background" Value="#E81123"/>
-                                    <Setter Property="BorderBrush" Value="#E81123"/>
-                                </Style>
-                            </Button.Styles>
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="🗑" FontWeight="Black" FontSize="16"/>
-                                <TextBlock Text="GỠ VIỆT HÓA" FontWeight="Bold" FontSize="16"/>
-                            </StackPanel>
-                        </Button>
-                        
+                            <Button IsVisible="{Binding IsInstalled}"
+                                    Background="#20FFFFFF" CornerRadius="8" Height="50" 
+                                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                    Click="UninstallButton_Click" BorderThickness="1" BorderBrush="#30FFFFFF">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <TextBlock Text="🗑" FontWeight="Black" FontSize="16"/>
+                                    <TextBlock Text="GỠ VIỆT HÓA" FontWeight="Bold" FontSize="16"/>
+                                </StackPanel>
+                            </Button>
+                        </Panel>
                         <TextBlock Text="Miễn phí &amp; An toàn" HorizontalAlignment="Center" FontSize="11" Foreground="#666" FontStyle="Italic"/>
                     </StackPanel>
                 </Border>
             </Grid>
         </Grid>
+
+        <Grid Name="UninstallConfirmOverlay" IsVisible="False" Background="#CC000000">
+            <Border Classes="DialogBox" Width="450" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    CornerRadius="16" BorderThickness="1" BorderBrush="#30FFFFFF"
+                    BoxShadow="0 20 60 0 #80000000">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Offset="0" Color="#252025"/><GradientStop Offset="1" Color="#151515"/></LinearGradientBrush>
+                </Border.Background>
+                
+                <Border Padding="30">
+                    <StackPanel Spacing="20">
+                        <Border Width="60" Height="60" CornerRadius="30" Background="#20E81123" HorizontalAlignment="Center">
+                            <TextBlock Text="🗑" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#E81123"/>
+                        </Border>
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="GỠ CÀI ĐẶT VIỆT HÓA?" FontWeight="Black" FontSize="20" Foreground="White" HorizontalAlignment="Center"/>
+                            <TextBlock TextAlignment="Center" Foreground="#AAA" TextWrapping="Wrap" LineHeight="24">
+                                <Run Text="Bạn có chắc chắn muốn xóa bản Việt Hóa của game"/>
+                                <Run Text="{Binding Title}" FontWeight="Bold" Foreground="White"/>
+                                <Run Text="khỏi máy không?"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <Grid ColumnDefinitions="*, 10, *">
+                            <Button Grid.Column="0" Click="CancelUninstall_Click" 
+                                    Background="Transparent" BorderThickness="1" BorderBrush="#30FFFFFF" 
+                                    CornerRadius="8" Height="45" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBlock Text="KHÔNG" FontWeight="Bold" Foreground="#DDD"/>
+                            </Button>
+
+                            <Button Grid.Column="2" Click="ConfirmUninstall_Click" 
+                                    Background="#E81123" CornerRadius="8" Height="45" 
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0">
+                                <TextBlock Text="CÓ, GỠ NGAY" FontWeight="Bold" Foreground="White"/>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Border>
+        </Grid>
+
     </Grid>
 </UserControl>
