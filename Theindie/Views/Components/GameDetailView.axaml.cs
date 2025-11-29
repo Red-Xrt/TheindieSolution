@@ -1,6 +1,7 @@
-﻿using System;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
+using System;
 
 namespace Theindie.Views.Components
 {
@@ -39,7 +40,16 @@ namespace Theindie.Views.Components
                 UninstallConfirmOverlay.IsVisible = false;
             }
         }
-
+        private void OnRootPointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            // Chỉ kéo khi chuột trái nhấn vào vùng trống (không phải nút bấm)
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            {
+                // Tìm cửa sổ cha chứa UserControl này
+                var topLevel = TopLevel.GetTopLevel(this) as Window;
+                topLevel?.BeginMoveDrag(e);
+            }
+        }
         // 3. Xác nhận gỡ (Đồng ý)
         private void ConfirmUninstall_Click(object? sender, RoutedEventArgs e)
         {

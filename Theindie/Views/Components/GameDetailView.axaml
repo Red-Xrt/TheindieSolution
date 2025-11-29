@@ -8,18 +8,11 @@
         <Style Selector="StackPanel.AnimEntry">
             <Style.Animations>
                 <Animation Duration="0:0:0.5" Easing="CubicEaseOut" FillMode="Forward">
-                    <KeyFrame KeyTime="0:0:0">
-                        <Setter Property="Opacity" Value="0"/>
-                        <Setter Property="TranslateTransform.Y" Value="40"/>
-                    </KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.5">
-                        <Setter Property="Opacity" Value="1"/>
-                        <Setter Property="TranslateTransform.Y" Value="0"/>
-                    </KeyFrame>
+                    <KeyFrame KeyTime="0:0:0"><Setter Property="Opacity" Value="0"/><Setter Property="TranslateTransform.Y" Value="40"/></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.5"><Setter Property="Opacity" Value="1"/><Setter Property="TranslateTransform.Y" Value="0"/></KeyFrame>
                 </Animation>
             </Style.Animations>
         </Style>
-
         <Style Selector="Button.NavBack">
             <Setter Property="Background" Value="#15FFFFFF"/>
             <Setter Property="Foreground" Value="White"/>
@@ -28,29 +21,19 @@
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Transitions"><Transitions><BrushTransition Property="Background" Duration="0:0:0.2"/></Transitions></Setter>
         </Style>
-        <Style Selector="Button.NavBack:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#30FFFFFF"/>
-        </Style>
-
+        <Style Selector="Button.NavBack:pointerover /template/ ContentPresenter"><Setter Property="Background" Value="#30FFFFFF"/></Style>
         <Style Selector="Grid#UninstallConfirmOverlay[IsVisible=True] Border.DialogBox">
             <Style.Animations>
                 <Animation Duration="0:0:0.3" Easing="BackEaseOut" FillMode="Forward">
-                    <KeyFrame KeyTime="0:0:0">
-                        <Setter Property="Opacity" Value="0"/>
-                        <Setter Property="ScaleTransform.ScaleX" Value="0.8"/>
-                        <Setter Property="ScaleTransform.ScaleY" Value="0.8"/>
-                    </KeyFrame>
-                    <KeyFrame KeyTime="0:0:0.3">
-                        <Setter Property="Opacity" Value="1"/>
-                        <Setter Property="ScaleTransform.ScaleX" Value="1"/>
-                        <Setter Property="ScaleTransform.ScaleY" Value="1"/>
-                    </KeyFrame>
+                    <KeyFrame KeyTime="0:0:0"><Setter Property="Opacity" Value="0"/><Setter Property="ScaleTransform.ScaleX" Value="0.8"/><Setter Property="ScaleTransform.ScaleY" Value="0.8"/></KeyFrame>
+                    <KeyFrame KeyTime="0:0:0.3"><Setter Property="Opacity" Value="1"/><Setter Property="ScaleTransform.ScaleX" Value="1"/><Setter Property="ScaleTransform.ScaleY" Value="1"/></KeyFrame>
                 </Animation>
             </Style.Animations>
         </Style>
     </UserControl.Styles>
 
-    <Grid Background="{StaticResource DeepBackground}">
+    <Grid Background="{StaticResource DeepBackground}" PointerPressed="OnRootPointerPressed">
+        
         <Panel>
             <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Opacity="0.5">
                 <Image.Effect><BlurEffect Radius="100"/></Image.Effect>
