@@ -17,6 +17,26 @@
         Width="1280" Height="800"
         WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+        <DataTemplate x:Key="GameListTemplate" x:DataType="vm:MainWindowViewModel">
+            <StackPanel Spacing="15">
+                <TextBlock Text="DANH SÁCH GAME" FontWeight="Bold" FontSize="16" Foreground="White" Opacity="0.9"/>
+                <ItemsControl ItemsSource="{Binding Games}">
+                    <ItemsControl.Styles>
+                        <Style Selector="ContentPresenter"><Setter Property="ZIndex" Value="0"/></Style>
+                        <Style Selector="ContentPresenter:pointerover"><Setter Property="ZIndex" Value="100"/></Style>
+                    </ItemsControl.Styles>
+                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel Margin="-6"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:GameInfo">
+                            <components:GameCardView Width="230" Height="340" Click="OnGameCardClick"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
     <Window.Styles>
         <Style Selector="Button.SidebarItem">
             <Setter Property="Background" Value="Transparent"/>
@@ -36,86 +56,79 @@
                 </Transitions>
             </Setter>
         </Style>
-
         <Style Selector="Button.SidebarItem:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="#10FFFFFF"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="RenderTransform" Value="translateX(4px)"/>
         </Style>
-
         <Style Selector="Button.SidebarItem.Active">
-            <Setter Property="Background" Value="#15FF1F2F"/>
-            <Setter Property="Foreground" Value="#FF1F2F"/>
+            <Setter Property="Foreground" Value="#FF9900"/>
+            <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style Selector="Button.SidebarItem.Active /template/ ContentPresenter">
-            <Setter Property="Background" Value="#15FF1F2F"/>
-            <Setter Property="Foreground" Value="#FF1F2F"/>
+            <Setter Property="Background" Value="#15FF9900"/>
+            <Setter Property="Foreground" Value="#FF9900"/>
         </Style>
     </Window.Styles>
 
-    <Panel PointerPressed="OnRootPointerPressed" Background="Transparent">
+    <Panel PointerPressed="OnRootPointerPressed">
+        <Border Background="{StaticResource DeepBackground}"/>
+
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintColor="#050505" TintOpacity="0.95" MaterialOpacity="0.8"/>
+                <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintColor="Black" TintOpacity="0.6" MaterialOpacity="0.4"/>
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
 
         <Grid ColumnDefinitions="240, *">
-            <Border Grid.Column="0" Background="#05FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="20">
+            <Border Grid.Column="0" Background="#08FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="20">
                 <Grid RowDefinitions="Auto, *, Auto">
-                    
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" Margin="0,10,0,40">
-                        <Border Width="36" Height="36" Background="{StaticResource AccentRed}" CornerRadius="10" BoxShadow="0 4 12 0 #40FF1F2F">
+                        <Border Width="36" Height="36" Background="{StaticResource AccentGradient}" CornerRadius="10" BoxShadow="0 4 12 0 #40FF1F2F">
                             <TextBlock Text="TI" Foreground="White" FontWeight="Black" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                         <StackPanel VerticalAlignment="Center" Spacing="-2">
-                            <TextBlock Text="THE INDIE" FontWeight="Black" FontSize="18" LetterSpacing="1"/>
-                            <TextBlock Text="LAUNCHER" FontSize="10" Foreground="#666" FontWeight="Bold" LetterSpacing="2"/>
+                            <TextBlock Text="THE INDIE" FontWeight="Black" FontSize="18" LetterSpacing="1" Foreground="White"/>
+                            <TextBlock Text="LAUNCHER" FontSize="10" Foreground="{StaticResource TextSecondary}" FontWeight="Bold" LetterSpacing="2"/>
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Spacing="6">
-                        <TextBlock Text="MENU CHÍNH" FontSize="10" Foreground="#444" FontWeight="Bold" Margin="16,0,0,8"/>
-                        
-                        <Button Classes="SidebarItem Active">
+                        <TextBlock Text="MENU CHÍNH" FontSize="10" Foreground="#666" FontWeight="Bold" Margin="16,0,0,8"/>
+                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="0">
                             <StackPanel Orientation="Horizontal" Spacing="12">
-                                <TextBlock Text="🔥"/> <TextBlock Text="Khám Phá"/>
+                                <TextBlock Text="🏠"/> <TextBlock Text="Trang Chủ"/>
                             </StackPanel>
                         </Button>
-                        
-                        <Button Classes="SidebarItem">
+                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="1">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <TextBlock Text="📚"/> <TextBlock Text="Thư Viện"/>
                             </StackPanel>
                         </Button>
-
-                        <TextBlock Text="HỆ THỐNG" FontSize="10" Foreground="#444" FontWeight="Bold" Margin="16,20,0,8"/>
-                        
-                        <Button Classes="SidebarItem">
+                        <TextBlock Text="HỆ THỐNG" FontSize="10" Foreground="#666" FontWeight="Bold" Margin="16,20,0,8"/>
+                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="2">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <TextBlock Text="⬇"/> <TextBlock Text="Tải Xuống"/>
                             </StackPanel>
                         </Button>
-                        
-                        <Button Classes="SidebarItem">
+                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="3">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <TextBlock Text="⚙"/> <TextBlock Text="Cài Đặt"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
 
-                    <Border Grid.Row="2" Background="#08FFFFFF" CornerRadius="12" Padding="12" Margin="0,20,0,0" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
+                    <Border Grid.Row="2" Background="#10FFFFFF" CornerRadius="12" Padding="12" Margin="0,20,0,0" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <Border Width="36" Height="36" CornerRadius="18" Background="#333" ClipToBounds="True">
-                                <Panel>
-                                    <TextBlock Text="👤" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5"/>
-                                </Panel>
+                            <Border Width="36" Height="36" CornerRadius="18" Background="#20FFFFFF" ClipToBounds="True">
+                                <Panel><TextBlock Text="👤" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.8"/></Panel>
                             </Border>
-                            
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock Text="Game Thủ" FontWeight="Bold" Foreground="White" FontSize="13"/>
                                 <StackPanel Orientation="Horizontal" Spacing="4">
-                                    <Border Width="6" Height="6" CornerRadius="3" Background="#4ade80" VerticalAlignment="Center"/>
+                                    <Border Width="6" Height="6" CornerRadius="3" Background="#4ade80" VerticalAlignment="Center">
+                                        <Border.BoxShadow>0 0 8 0 #804ade80</Border.BoxShadow>
+                                    </Border>
                                     <TextBlock Text="Online" FontSize="11" Foreground="#4ade80"/>
                                 </StackPanel>
                             </StackPanel>
@@ -125,52 +138,96 @@
             </Border>
 
             <Grid Grid.Column="1" RowDefinitions="60, *">
-                
                 <Grid Grid.Row="0" Background="Transparent" PointerPressed="OnHeaderPointerPressed">
-                    <Border BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,0,1" Background="#50000000"/>
-                    <Grid ColumnDefinitions="*, 140" Margin="30,0">
-                        
-                        <Border HorizontalAlignment="Left" Width="300" Height="32" CornerRadius="16" Background="#10FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
+                    <Border BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,0,1" Background="#10FFFFFF"/>
+                    <Grid ColumnDefinitions="*, 220, 140" Margin="30,0">
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding PageTitle}" FontWeight="Black" FontSize="20" Foreground="White" LetterSpacing="1">
+                                <TextBlock.Effect><DropShadowEffect Color="Black" BlurRadius="5" Opacity="0.5"/></TextBlock.Effect>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <Border Grid.Column="1" HorizontalAlignment="Right" Width="220" Height="32" CornerRadius="16" Background="#15000000" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
                             <Grid ColumnDefinitions="30, *">
-                                <TextBlock Text="🔍" Opacity="0.3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
-                                <TextBox Grid.Column="1" Classes="SearchInput" Watermark="Tìm kiếm game..." Foreground="#DDDDDD"/>
+                                <TextBlock Text="🔍" Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
+                                <TextBox Grid.Column="1" Text="{Binding SearchText}" Classes="SearchInput" Watermark="Tìm kiếm..." Foreground="White"/>
                             </Grid>
                         </Border>
                     </Grid>
                 </Grid>
 
-                <ScrollViewer Grid.Row="1" Padding="30" VerticalScrollBarVisibility="Visible">
-                    <StackPanel Spacing="30">
-                        <Border Height="260" CornerRadius="16" ClipToBounds="True">
-                            <Panel>
-                                <Border Background="#200a40"/>
-                                <StackPanel VerticalAlignment="Bottom" Margin="40,30">
-                                    <TextBlock Text="STARDEW VALLEY" FontWeight="Black" FontSize="42" Foreground="White"/>
-                                    <Button Background="{StaticResource AccentRed}" Foreground="White" CornerRadius="6" Padding="20,8" Margin="0,15,0,0" Content="CÀI ĐẶT NGAY" FontWeight="Bold"/>
-                                </StackPanel>
-                            </Panel>
-                        </Border>
+                <Carousel Grid.Row="1" SelectedIndex="{Binding CurrentPage}">
+                    <Carousel.PageTransition>
+                        <PageSlide Orientation="Horizontal" Duration="0:0:0.3"/>
+                    </Carousel.PageTransition>
+                    
+                    <ScrollViewer Padding="30">
+                        <StackPanel Spacing="30">
+                            <Border Height="260" CornerRadius="16" ClipToBounds="True" BoxShadow="0 10 40 0 #40000000">
+                                <Panel>
+                                    <Border Background="#201025"/>
+                                    <Image Source="/Assets/Icons/Logo.ico" Stretch="UniformToFill" Opacity="0.6">
+                                        <Image.Effect><BlurEffect Radius="0"/></Image.Effect>
+                                    </Image>
+                                    
+                                    <Border>
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Offset="0" Color="#CC000000"/>
+                                                <GradientStop Offset="1" Color="Transparent"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
 
-                        <StackPanel Spacing="15">
-                            <TextBlock Text="DANH SÁCH GAME" FontWeight="Bold" FontSize="16" Foreground="White"/>
-                            
-                            <ItemsControl ItemsSource="{Binding Games}">
-                                <ItemsControl.Styles>
-                                    <Style Selector="ContentPresenter"><Setter Property="ZIndex" Value="0"/></Style>
-                                    <Style Selector="ContentPresenter:pointerover"><Setter Property="ZIndex" Value="100"/></Style>
-                                </ItemsControl.Styles>
-                                
-                                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel Margin="-6"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="models:GameInfo">
-                                        <components:GameCardView Width="230" Height="340" Click="OnGameCardClick"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                    <StackPanel VerticalAlignment="Bottom" Margin="40,30">
+                                        <TextBlock Text="STARDEW VALLEY" FontWeight="Black" FontSize="42" Foreground="White">
+                                            <TextBlock.Effect><DropShadowEffect BlurRadius="10" Opacity="0.5"/></TextBlock.Effect>
+                                        </TextBlock>
+                                        <TextBlock Text="Cập nhật bản Việt Hóa mới nhất v1.5.6" Foreground="#DDD" FontSize="14" Margin="0,0,0,15"/>
+                                        
+                                        <Button Background="{StaticResource AccentGradient}" Foreground="White" CornerRadius="8" Padding="25,10" Content="CÀI ĐẶT NGAY" FontWeight="Bold" BorderThickness="0">
+                                            <Button.Styles>
+                                                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                                    <Setter Property="BoxShadow" Value="0 0 20 0 #60FF9900"/>
+                                                </Style>
+                                            </Button.Styles>
+                                        </Button>
+                                    </StackPanel>
+                                </Panel>
+                            </Border>
+                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GameListTemplate}"/>
+                            <Panel Height="50"/>
                         </StackPanel>
-                        <Panel Height="50"/>
-                    </StackPanel>
-                </ScrollViewer>
+                    </ScrollViewer>
+
+                    <ScrollViewer Padding="30">
+                        <StackPanel Spacing="30">
+                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GameListTemplate}"/>
+                            <Panel Height="50"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Grid>
+                        <Border Background="#10FFFFFF" CornerRadius="16" Width="400" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10">
+                                <TextBlock Text="⬇" FontSize="40" HorizontalAlignment="Center" Foreground="#FF9900"/>
+                                <TextBlock Text="LỊCH SỬ TẢI XUỐNG" FontWeight="Bold" HorizontalAlignment="Center" Foreground="White"/>
+                                <TextBlock Text="Chưa có dữ liệu" Foreground="#888" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Grid>
+                        <Border Background="#10FFFFFF" CornerRadius="16" Width="400" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10">
+                                <TextBlock Text="⚙" FontSize="40" HorizontalAlignment="Center" Foreground="#AAA"/>
+                                <TextBlock Text="CẤU HÌNH HỆ THỐNG" FontWeight="Bold" HorizontalAlignment="Center" Foreground="White"/>
+                                <TextBlock Text="Đang phát triển..." Foreground="#888" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                </Carousel>
             </Grid>
         </Grid>
 

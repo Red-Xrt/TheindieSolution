@@ -5,10 +5,24 @@
              RequestedThemeVariant="Dark">
 
     <Application.Resources>
+        <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0" Color="#FF1F2F"/>   <GradientStop Offset="1" Color="#FF9900"/>   </LinearGradientBrush>
+        
+        <RadialGradientBrush x:Key="DeepBackground" Center="50%, 0%" GradientOrigin="50%, 0%" RadiusX="100%" RadiusY="100%">
+            <GradientStop Offset="0" Color="#251825"/>
+            <GradientStop Offset="0.5" Color="#090909"/>
+            <GradientStop Offset="1" Color="#000000"/>
+        </RadialGradientBrush>
+
+        <SolidColorBrush x:Key="TextSecondary">#999999</SolidColorBrush>
+
+        <SolidColorBrush x:Key="AccentRed">#FF1F2F</SolidColorBrush> 
+        
+        <SolidColorBrush x:Key="BgCard">#CC141414</SolidColorBrush>
+        
         <SolidColorBrush x:Key="BgDark">#050505</SolidColorBrush>
-        <SolidColorBrush x:Key="BgCard">#141414</SolidColorBrush>
-        <SolidColorBrush x:Key="AccentRed">#FF1F2F</SolidColorBrush>
-        <SolidColorBrush x:Key="GlassBorder">#1FFFFFFF</SolidColorBrush>
+
+        <SolidColorBrush x:Key="GlassBorder">#25FFFFFF</SolidColorBrush>
         <converters:BitmapAssetValueConverter x:Key="BitmapConverter"/>
     </Application.Resources>
 
@@ -23,11 +37,11 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="10,0,0,0"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="CaretBrush" Value="#FF9900"/>
+            <Setter Property="SelectionBrush" Value="#FF1F2F"/>
         </Style>
         <Style Selector="TextBox.SearchInput:pointerover /template/ Border#PART_BorderElement"><Setter Property="Background" Value="Transparent"/></Style>
         <Style Selector="TextBox.SearchInput:focus /template/ Border#PART_BorderElement"><Setter Property="Background" Value="Transparent"/></Style>
-        <Style Selector="TextBox.SearchInput:focus"><Setter Property="Foreground" Value="White"/></Style>
 
         <Style Selector="Button.WindowControl">
             <Setter Property="Background" Value="Transparent"/>
@@ -38,9 +52,12 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="#AAAAAA"/>
+            <Setter Property="Transitions">
+                <Transitions><BrushTransition Property="Background" Duration="0:0:0.2"/></Transitions>
+            </Setter>
         </Style>
         <Style Selector="Button.WindowControl:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#20FFFFFF"/>
+            <Setter Property="Background" Value="#15FFFFFF"/>
             <Setter Property="Foreground" Value="White"/>
         </Style>
         <Style Selector="Button.WindowControl.Close:pointerover /template/ ContentPresenter">
@@ -50,6 +67,20 @@
 
         <Style Selector="ScrollBar:vertical"><Setter Property="Width" Value="6"/><Setter Property="AllowAutoHide" Value="False"/><Setter Property="Background" Value="Transparent"/></Style>
         <Style Selector="ScrollBar /template/ RepeatButton"><Setter Property="IsVisible" Value="False"/></Style>
-        <Style Selector="ScrollBar /template/ Thumb"><Setter Property="Background" Value="#20FFFFFF"/><Setter Property="CornerRadius" Value="3"/></Style>
+        <Style Selector="ScrollBar /template/ Thumb"><Setter Property="Background" Value="#30FFFFFF"/><Setter Property="CornerRadius" Value="3"/></Style>
+        <Style Selector="ScrollBar /template/ Thumb:pointerover"><Setter Property="Background" Value="{StaticResource AccentGradient}"/></Style>
+
+        <Style Selector="Button.Primary">
+            <Setter Property="Background" Value="{StaticResource AccentGradient}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+        <Style Selector="Button.Primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource AccentGradient}"/>
+            <Setter Property="Opacity" Value="0.9"/>
+            <Setter Property="BoxShadow" Value="0 0 20 0 #50FF1F2F"/>
+        </Style>
     </Application.Styles>
 </Application>
