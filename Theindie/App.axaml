@@ -7,7 +7,7 @@
     <Application.Resources>
         <SolidColorBrush x:Key="PrimaryRed">#FF1F2F</SolidColorBrush>
         <SolidColorBrush x:Key="DarkRed">#C40D1C</SolidColorBrush>
-        <converters:IntToBoolConverter x:Key="PageActiveConverter"/>
+        
         <LinearGradientBrush x:Key="RedGradient" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Offset="0" Color="#FF1F2F"/>
             <GradientStop Offset="1" Color="#D90C1C"/>
@@ -34,6 +34,7 @@
         </RadialGradientBrush>
 
         <converters:BitmapAssetValueConverter x:Key="BitmapConverter"/>
+        <converters:IntToBoolConverter x:Key="PageActiveConverter"/>
 
         <StreamGeometry x:Key="IconHome">M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z</StreamGeometry>
         <StreamGeometry x:Key="IconLibrary">M4 3C2.89 3 2 3.89 2 5V19C2 20.11 2.89 21 4 21H18C19.11 21 20 20.11 20 19V5C20 3.89 19.11 3 18 3H4M4 5H18V19H4V5M6 7V17H10V7H6M12 7V17H16V7H12Z</StreamGeometry>
@@ -65,7 +66,7 @@
             <Setter Property="Background" Value="{StaticResource RedGradient}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="CornerRadius" Value="12"/>
             <Setter Property="Padding" Value="24,12"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Effect">
@@ -82,7 +83,8 @@
         <Style Selector="Button.Primary:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="#FF3B49"/>
             <Setter Property="RenderTransform" Value="scale(1.02)"/>
-            <Setter Property="CornerRadius" Value="8"/> </Style>
+            <Setter Property="CornerRadius" Value="16"/>
+        </Style>
         
         <Style Selector="Button.Primary:pointerover">
             <Setter Property="Effect">
@@ -111,8 +113,14 @@
             <Setter Property="Transitions"><Transitions><BrushTransition Property="Foreground" Duration="0:0:0.2"/></Transitions></Setter>
         </Style>
         
-        <Style Selector="Button.SidebarItem:pointerover /template/ ContentPresenter"><Setter Property="Background" Value="#10FFFFFF"/><Setter Property="RenderTransform" Value="translateX(5px)"/></Style>
-        <Style Selector="Button.SidebarItem:pointerover PathIcon"><Setter Property="Foreground" Value="White"/></Style>
+        <Style Selector="Button.SidebarItem:not(.Active):pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#10FFFFFF"/>
+            <Setter Property="RenderTransform" Value="translateX(5px)"/>
+        </Style>
+        
+        <Style Selector="Button.SidebarItem:not(.Active):pointerover PathIcon">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
         
         <Style Selector="Button.SidebarItem.Active"><Setter Property="Foreground" Value="White"/><Setter Property="FontWeight" Value="Bold"/></Style>
         <Style Selector="Button.SidebarItem.Active PathIcon"><Setter Property="Foreground" Value="{StaticResource PrimaryRed}"/></Style>

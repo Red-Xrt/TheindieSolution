@@ -23,9 +23,13 @@ namespace Theindie.ViewModels
         [ObservableProperty]
         private string _pageTitle = "TRANG CHỦ";
 
+        // 👇 TRẠNG THÁI MỚI: Sidebar có đang mở rộng không?
+        [ObservableProperty]
+        private bool _isPaneOpen = false; // Mặc định đóng (chỉ hiện icon)
+
         public MainWindowViewModel()
         {
-            // Database giả lập (Mặc định chưa cài game nào cả)
+            // Database giả lập
             _allGames = new List<GameInfo>
             {
                 new GameInfo { Title = "Stardew Valley", IsInstalled = false, Tags = "Nông trại, RPG", Version = "v1.5.6", Size = "500 MB", UpdateDate = "Mới nhất", Description = "Bạn được thừa hưởng trang trại cũ của ông nội...", ImagePath = "/Assets/Icons/Logo.ico" },
@@ -42,33 +46,26 @@ namespace Theindie.ViewModels
 
         partial void OnCurrentPageChanged(int value)
         {
-            // Cập nhật tiêu đề trang chuẩn xác
             switch (value)
             {
                 case 0: PageTitle = "TRANG CHỦ"; break;
-                case 1: PageTitle = "GAME ĐÃ CÀI ĐẶT"; break; // Tab 1 là Game đã cài
+                case 1: PageTitle = "GAME ĐÃ CÀI ĐẶT"; break;
                 case 2: PageTitle = "LỊCH SỬ TẢI XUỐNG"; break;
                 case 3: PageTitle = "CẤU HÌNH HỆ THỐNG"; break;
             }
             ApplyFilter();
         }
 
-        // LOGIC LỌC TRUNG TÂM
         private void ApplyFilter()
         {
             var query = _searchText.ToLower();
             var filtered = _allGames.Where(g =>
-                // 1. Lọc theo tên tìm kiếm
                 g.Title.ToLower().Contains(query) &&
-
-                // 2. Lọc theo Tab:
-                // Nếu đang ở Tab 1 (Index = 1), chỉ hiện những game có IsInstalled = true
                 (CurrentPage != 1 || g.IsInstalled)
             );
             Games = new ObservableCollection<GameInfo>(filtered);
         }
 
-        // Hàm để Main Window gọi khi cần làm mới danh sách
         public void RefreshList() => ApplyFilter();
 
         [RelayCommand]
@@ -76,5 +73,9 @@ namespace Theindie.ViewModels
         {
             if (int.TryParse(pageIndex, out int index)) CurrentPage = index;
         }
+
+        // Lệnh Toggle thủ công (nếu cần nút Hamburger)
+        [RelayCommand]
+        public void TogglePane() => IsPaneOpen = !IsPaneOpen;
     }
 }

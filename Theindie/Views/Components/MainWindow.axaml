@@ -11,14 +11,15 @@
         ExtendClientAreaToDecorationsHint="True" ExtendClientAreaChromeHints="NoChrome"
         
         WindowStartupLocation="CenterScreen"
-        CanResize="False"> <Window.Resources>
+        CanResize="False">
+
+    <Window.Resources>
         <DataTemplate x:Key="GameListTemplate" x:DataType="vm:MainWindowViewModel">
             <StackPanel Spacing="20">
                 <Grid ColumnDefinitions="Auto, *">
                     <TextBlock Text="DANH SÁCH GAME" FontWeight="Black" FontSize="14" Foreground="#666" LetterSpacing="1" Margin="10,0,0,0"/>
                     <Separator Grid.Column="1" Margin="20,0,10,0" Background="#20FFFFFF"/>
                 </Grid>
-                
                 <ItemsControl ItemsSource="{Binding Games}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel Margin="-10"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -39,127 +40,159 @@
              </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
 
-        <Grid ColumnDefinitions="260, *">
-            <Border Grid.Column="0" Background="#05FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="25">
-                <Grid RowDefinitions="Auto, *, Auto">
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="0,15,0,50">
-                        <Border Width="44" Height="44" Background="{StaticResource RedGradient}" CornerRadius="10" BoxShadow="0 0 25 0 #50FF1F2F" BorderBrush="#FF5F6F" BorderThickness="1">
-                            <TextBlock Text="TI" Foreground="White" FontWeight="Black" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="THE INDIE" FontWeight="Black" FontSize="18" Foreground="White" LetterSpacing="0.5"/>
-                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBlock Text="LAUNCHER" FontSize="10" Foreground="#666" FontWeight="Bold" LetterSpacing="2"/>
-                                <Border Background="{StaticResource PrimaryRed}" CornerRadius="2" Padding="4,1"><TextBlock Text="PRO" FontSize="8" FontWeight="Black" Foreground="White"/></Border>
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
+        <SplitView DisplayMode="CompactInline"
+                   IsPaneOpen="{Binding IsPaneOpen}"
+                   CompactPaneLength="70"
+                   OpenPaneLength="260"
+                   PaneBackground="#05FFFFFF">
 
-                    <StackPanel Grid.Row="1" Spacing="8">
-                        <TextBlock Text="MAIN MENU" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,0,0,10" LetterSpacing="1"/>
-                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="0" Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=0}">
-                            <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"><PathIcon Data="{StaticResource IconHome}"/> <TextBlock Text="Trang Chủ" VerticalAlignment="Center"/></StackPanel>
-                        </Button>
-                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="1" Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=1}">
-                            <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"><PathIcon Data="{StaticResource IconCheck}"/> <TextBlock Text="Đã Cài Đặt" VerticalAlignment="Center"/></StackPanel>
-                        </Button>
-
-                        <TextBlock Text="SYSTEM" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,25,0,10" LetterSpacing="1"/>
-                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="2" Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=2}">
-                            <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"><PathIcon Data="{StaticResource IconDownload}"/> <TextBlock Text="Tải Xuống" VerticalAlignment="Center"/></StackPanel>
-                        </Button>
-                        <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="3" Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=3}">
-                            <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center"><PathIcon Data="{StaticResource IconSettings}"/> <TextBlock Text="Cấu Hình" VerticalAlignment="Center"/></StackPanel>
-                        </Button>
-                    </StackPanel>
-
-                    <Border Grid.Row="2" Background="#08FFFFFF" CornerRadius="12" Padding="12" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
-                        <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                            <Border Width="40" Height="40" CornerRadius="20" BorderBrush="{StaticResource PrimaryRed}" BorderThickness="2" Padding="2">
-                                <Border Background="#30FFFFFF" CornerRadius="20" ClipToBounds="True">
-                                    <PathIcon Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" Foreground="#AAA" Width="24" Height="24"/>
+            <SplitView.Pane>
+                <Border BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" 
+                        PointerEntered="OnSidebarPointerEntered" 
+                        PointerExited="OnSidebarPointerExited"
+                        Background="Transparent"
+                        Padding="0,25"> 
+                    
+                    <Grid RowDefinitions="Auto, *, Auto" Background="Transparent">
+                        
+                        <StackPanel Grid.Row="0" Margin="13,0,0,50">
+                            <StackPanel Orientation="Horizontal" Spacing="15">
+                                <Border Width="44" Height="44" Background="{StaticResource RedGradient}" CornerRadius="10" BoxShadow="0 0 25 0 #50FF1F2F" BorderBrush="#FF5F6F" BorderThickness="1">
+                                    <TextBlock Text="TI" Foreground="White" FontWeight="Black" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
-                            </Border>
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Administrator" FontWeight="Bold" Foreground="White" FontSize="13"/>
-                                <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,2,0,0">
-                                    <Border Width="8" Height="8" CornerRadius="4" Background="#4ade80" VerticalAlignment="Center" BoxShadow="0 0 8 0 #4ade80"/>
-                                    <TextBlock Text="Online" FontSize="11" Foreground="#4ade80"/>
+                                <StackPanel VerticalAlignment="Center" IsVisible="{Binding IsPaneOpen}">
+                                    <TextBlock Text="THE INDIE" FontWeight="Black" FontSize="18" Foreground="White" LetterSpacing="0.5"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock Text="LAUNCHER" FontSize="10" Foreground="#666" FontWeight="Bold" LetterSpacing="2"/>
+                                        <Border Background="{StaticResource PrimaryRed}" CornerRadius="2" Padding="4,1"><TextBlock Text="PRO" FontSize="8" FontWeight="Black" Foreground="White"/></Border>
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
-                    </Border>
-                </Grid>
-            </Border>
 
-            <Grid Grid.Column="1" RowDefinitions="70, *">
-                <Grid Grid.Row="0" Background="Transparent" PointerPressed="OnHeaderPointerPressed">
-                    <Grid ColumnDefinitions="*, 250, 140" Margin="40,0">
-                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding PageTitle}" FontWeight="Black" FontSize="24" Foreground="White" LetterSpacing="-0.5"/>
-                        </StackPanel>
-                        <TextBox Grid.Column="1" Text="{Binding SearchText}" Classes="SearchInput" Watermark="Tìm kiếm game..." VerticalAlignment="Center">
-                            <TextBox.InnerRightContent>
-                                <PathIcon Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" Width="16" Height="16" Foreground="#666" Margin="0,0,10,0"/>
-                            </TextBox.InnerRightContent>
-                        </TextBox>
-                    </Grid>
-                </Grid>
-
-                <Carousel Grid.Row="1" SelectedIndex="{Binding CurrentPage}">
-                    <Carousel.PageTransition>
-                        <PageSlide Orientation="Horizontal" Duration="0:0:0.4" SlideInEasing="CubicEaseOut" SlideOutEasing="CubicEaseOut"/>
-                    </Carousel.PageTransition>
-                    
-                    <ScrollViewer Padding="30,0,30,40">
-                        <StackPanel Spacing="35">
-                        <Border Height="260" MaxWidth="985" HorizontalAlignment="Center"
-                                    Margin="10,0,10,0" CornerRadius="16" ClipToBounds="True" 
-                                    BoxShadow="0 20 60 0 #60000000" BorderBrush="{StaticResource PrimaryRed}" BorderThickness="0,0,0,2">
-                                <Panel>
-                                    <Image Source="/Assets/Icons/Logo.ico" Stretch="UniformToFill" Opacity="0.7"/>
-                                    <Border Background="{StaticResource BgDark}" Opacity="0.3"/>
-                                    <Border><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0.4" Color="Transparent"/><GradientStop Offset="1" Color="#050505"/></LinearGradientBrush></Border.Background></Border>
-                                    
-                                    <Grid RowDefinitions="*, Auto" Margin="40">
-                                        <StackPanel Grid.Row="1">
-                                            <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
-                                                <Border Background="{StaticResource PrimaryRed}" CornerRadius="4" Padding="8,4"><TextBlock Text="HOT" Foreground="White" FontWeight="Black" FontSize="11"/></Border>
-                                                <Border Background="#30FFFFFF" CornerRadius="4" Padding="8,4"><TextBlock Text="BẢN CẬP NHẬT MỚI" Foreground="White" FontWeight="Bold" FontSize="11"/></Border>
-                                            </StackPanel>
-                                            
-                                            <TextBlock Text="STARDEW VALLEY" FontWeight="Black" FontSize="42" Foreground="White" LineHeight="45" TextWrapping="Wrap"/>
-                                            <TextBlock Text="Đã cập nhật bản Việt Hóa v1.5.6 đầy đủ DLC." Foreground="#CCC" FontSize="15" Margin="0,8,0,20" TextWrapping="Wrap"/>
-                                            
-                                            <Button Classes="Primary" HorizontalAlignment="Left">
-                                                <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                                                    <PathIcon Data="{StaticResource IconPlay}" Width="14"/>
-                                                    <TextBlock Text="XEM CHI TIẾT" FontWeight="Bold" FontSize="13"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
-                                </Panel>
-                            </Border>
+                        <StackPanel Grid.Row="1" Spacing="8" Background="Transparent">
+                            <TextBlock Text="MAIN MENU" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,0,0,10" LetterSpacing="1"/>
                             
-                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GameListTemplate}"/>
-                            <Panel Height="50"/>
-                        </StackPanel>
-                    </ScrollViewer>
+                            <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="0" 
+                                    Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=0}"
+                                    ToolTip.Tip="Trang Chủ">
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid Width="44" Height="24"><PathIcon Data="{StaticResource IconHome}" HorizontalAlignment="Center"/></Grid>
+                                    <TextBlock Text="Trang Chủ" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            
+                            <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="1" 
+                                    Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=1}"
+                                    ToolTip.Tip="Đã Cài Đặt">
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid Width="44" Height="24"><PathIcon Data="{StaticResource IconCheck}" HorizontalAlignment="Center"/></Grid>
+                                    <TextBlock Text="Đã Cài Đặt" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button>
 
-                    <ScrollViewer Padding="30,0,30,40">
-                        <StackPanel Spacing="30">
-                            <Border Height="10"/>
-                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GameListTemplate}"/>
-                            <Panel Height="50"/>
-                        </StackPanel>
-                    </ScrollViewer>
+                            <Separator Background="#10FFFFFF" Margin="10,20"/>
 
-                    <Grid><TextBlock Text="DOWNLOADS" FontSize="40" Foreground="#222" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/></Grid>
-                    <Grid><TextBlock Text="SETTINGS" FontSize="40" Foreground="#222" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/></Grid>
-                </Carousel>
-            </Grid>
-        </Grid>
+                            <TextBlock Text="SYSTEM" FontSize="11" Foreground="#444" FontWeight="Bold" Margin="10,0,0,10" LetterSpacing="1"/>
+                            <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="2" 
+                                    Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=2}"
+                                    ToolTip.Tip="Tải Xuống">
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid Width="44" Height="24"><PathIcon Data="{StaticResource IconDownload}" HorizontalAlignment="Center"/></Grid>
+                                    <TextBlock Text="Tải Xuống" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            
+                            <Button Classes="SidebarItem" Command="{Binding SwitchPageCommand}" CommandParameter="3" 
+                                    Classes.Active="{Binding CurrentPage, Converter={StaticResource PageActiveConverter}, ConverterParameter=3}"
+                                    ToolTip.Tip="Cấu Hình">
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid Width="44" Height="24"><PathIcon Data="{StaticResource IconSettings}" HorizontalAlignment="Center"/></Grid>
+                                    <TextBlock Text="Cấu Hình" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                        <Border Grid.Row="2" Margin="10,0" Background="#08FFFFFF" CornerRadius="12" Padding="8" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                <Border Width="36" Height="36" CornerRadius="18" Background="#20FFFFFF" ClipToBounds="True">
+                                    <PathIcon Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" Foreground="#AAA" Width="20" Height="20"/>
+                                </Border>
+                                
+                                <StackPanel VerticalAlignment="Center" IsVisible="{Binding IsPaneOpen}">
+                                    <TextBlock Text="Admin" FontWeight="Bold" Foreground="White" FontSize="13"/>
+                                    <TextBlock Text="Online" FontSize="10" Foreground="#4ade80"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </SplitView.Pane>
+
+            <SplitView.Content>
+                <Grid RowDefinitions="70, *">
+                    <Grid Grid.Row="0" Background="Transparent" PointerPressed="OnHeaderPointerPressed">
+                        <Grid ColumnDefinitions="*, 250, 140" Margin="40,0">
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding PageTitle}" FontWeight="Black" FontSize="24" Foreground="White" LetterSpacing="-0.5"/>
+                            </StackPanel>
+                            <TextBox Grid.Column="1" Text="{Binding SearchText}" Classes="SearchInput" Watermark="Tìm kiếm game..." VerticalAlignment="Center">
+                                <TextBox.InnerRightContent>
+                                    <PathIcon Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" Width="16" Height="16" Foreground="#666" Margin="0,0,10,0"/>
+                                </TextBox.InnerRightContent>
+                            </TextBox>
+                        </Grid>
+                    </Grid>
+
+                    <Carousel Grid.Row="1" SelectedIndex="{Binding CurrentPage}">
+                        <Carousel.PageTransition>
+                            <PageSlide Orientation="Horizontal" Duration="0:0:0.4" SlideInEasing="CubicEaseOut" SlideOutEasing="CubicEaseOut"/>
+                        </Carousel.PageTransition>
+                        
+                        <ScrollViewer Padding="30,0,30,40">
+                            <StackPanel Spacing="35">
+                                <Border Height="260" MaxWidth="1100" HorizontalAlignment="Center" Margin="10,0,10,0" CornerRadius="16" ClipToBounds="True" BoxShadow="0 20 60 0 #60000000" BorderBrush="{StaticResource PrimaryRed}" BorderThickness="0,0,0,2">
+                                    <Panel>
+                                        <Image Source="/Assets/Icons/Logo.ico" Stretch="UniformToFill" Opacity="0.7"/>
+                                        <Border Background="{StaticResource BgDark}" Opacity="0.3"/>
+                                        <Border><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0.4" Color="Transparent"/><GradientStop Offset="1" Color="#050505"/></LinearGradientBrush></Border.Background></Border>
+                                        <Grid RowDefinitions="*, Auto" Margin="30">
+                                            <StackPanel Grid.Row="1">
+                                                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                                                    <Border Background="{StaticResource PrimaryRed}" CornerRadius="4" Padding="8,4"><TextBlock Text="HOT" Foreground="White" FontWeight="Black" FontSize="11"/></Border>
+                                                    <Border Background="#30FFFFFF" CornerRadius="4" Padding="8,4"><TextBlock Text="BẢN CẬP NHẬT MỚI" Foreground="White" FontWeight="Bold" FontSize="11"/></Border>
+                                                </StackPanel>
+                                                <TextBlock Text="STARDEW VALLEY" FontWeight="Black" FontSize="42" Foreground="White" LineHeight="45" TextWrapping="Wrap"/>
+                                                <TextBlock Text="Đã cập nhật bản Việt Hóa v1.5.6 đầy đủ DLC." Foreground="#CCC" FontSize="15" Margin="0,8,0,20" TextWrapping="Wrap"/>
+                                                <Button Classes="Primary" HorizontalAlignment="Left">
+                                                    <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                                        <PathIcon Data="{StaticResource IconPlay}" Width="14"/>
+                                                        <TextBlock Text="XEM CHI TIẾT" FontWeight="Bold" FontSize="13"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Panel>
+                                </Border>
+                                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GameListTemplate}"/>
+                                <Panel Height="50"/>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <ScrollViewer Padding="30,0,30,40">
+                            <StackPanel Spacing="30">
+                                <Border Height="10"/>
+                                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GameListTemplate}"/>
+                                <Panel Height="50"/>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <Grid><TextBlock Text="DOWNLOADS" FontSize="40" Foreground="#222" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/></Grid>
+                        <Grid><TextBlock Text="SETTINGS" FontSize="40" Foreground="#222" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/></Grid>
+                    </Carousel>
+                </Grid>
+            </SplitView.Content>
+        </SplitView>
 
         <components:GameDetailView Name="DetailOverlay" IsVisible="False" BackRequested="HideDetail_Overlay" InstallRequested="ShowInstall_Wizard" UninstallRequested="OnUninstallRequested"/>
         <components:InstallationWizardView Name="InstallWizard" IsVisible="False" CloseRequested="HideInstall_Wizard"/>

@@ -37,27 +37,57 @@ namespace Theindie.Views
         {
             base.OnOpened(e);
 
-            // Lấy thông tin màn hình hiện tại
             if (Screens.Primary != null)
             {
-                var workArea = Screens.Primary.WorkingArea; // Vùng làm việc (trừ thanh Taskbar)
-                var screenWidth = workArea.Width;
-                var screenHeight = workArea.Height;
+                // 1. Lấy thông số màn hình
+                var workArea = Screens.Primary.WorkingArea; // Kích thước vật lý (Pixel thật)
+                var scaling = this.DesktopScaling; // Tỷ lệ phóng to của Windows (1.0, 1.25, 1.5...)
 
-                // 1. Tính toán kích thước mong muốn (70% Rộng, 75% Cao)
-                var newWidth = screenWidth * 0.70;
-                var newHeight = screenHeight * 0.75;
+                // Chia cho scaling để ra đơn vị hiển thị (Logical)
+                var targetLogicalWidth = (workArea.Width / scaling) * 0.85;
+                var targetLogicalHeight = (workArea.Height / scaling) * 0.90;
 
-                this.Width = newWidth;
-                this.Height = newHeight;
+                this.Width = targetLogicalWidth;
+                this.Height = targetLogicalHeight;
 
-                // 2. TÍNH TOÁN VỊ TRÍ CĂN GIỮA (CENTER)
-                // Công thức: Tọa độ = Góc màn hình + (Kích thước màn - Kích thước app) / 2
-                var newX = (int)(workArea.X + (screenWidth - newWidth) / 2);
-                var newY = (int)(workArea.Y + (screenHeight - newHeight) / 2);
+                // 3. Tính toán vị trí CĂN GIỮA (Center)
+                // Phải đổi ngược kích thước App ra Pixel thật để tính tọa độ
+                var appPhysicalWidth = targetLogicalWidth * scaling;
+                var appPhysicalHeight = targetLogicalHeight * scaling;
 
-                // 3. Áp dụng vị trí mới
-                this.Position = new PixelPoint(newX, newY);
+                var newX = workArea.X + (workArea.Width - appPhysicalWidth) / 2;
+                var newY = workArea.Y + (workArea.Height - appPhysicalHeight) / 2;
+
+                // 4. Áp dụng vị trí
+                this.Position = new PixelPoint((int)newX, (int)newY);
+            }
+        }
+        //HOVER SIDEBAR
+        private void OnSidebarPointerEntered(object? sender, PointerEventArgs e)
+        {
+            if (DataContext is MainWindowViewModel vm)
+            {
+                vm.IsPaneOpen = true; // Mở rộng
+            }
+        }
+
+        private void OnSidebarPointerExited(object? sender, PointerEventArgs e)
+        {
+            var border = sender as Border;
+            if (border == null) return;
+
+            // KIỂM TRA CHUẨN: Nếu chuột vẫn đang nằm trên Border (hoặc con của nó)
+            // Thì RETURN NGAY (Không đóng).
+            // IsPointerOver tự động xử lý chính xác việc di chuyển giữa các nút con.
+            if (border.IsPointerOver)
+            {
+                return;
+            }
+
+            // Nếu thực sự đã ra ngoài -> Đóng
+            if (DataContext is MainWindowViewModel vm)
+            {
+                vm.IsPaneOpen = false;
             }
         }
         // --- 2. XỬ LÝ OVERLAY CHI TIẾT GAME ---
