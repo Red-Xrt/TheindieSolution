@@ -3,8 +3,9 @@
         xmlns:components="using:Theindie.Views.Components"
         xmlns:models="using:Theindie.Models"
         xmlns:views="using:Theindie.Views"
+        xmlns:vm="using:Theindie.ViewModels"
         x:Class="Theindie.Views.MainWindow"
-        x:DataType="views:MainWindow"
+        x:DataType="vm:MainWindowViewModel"
         
         Title="The Indie Launcher"
         Icon="/Assets/Icons/Logo.ico"
@@ -15,6 +16,7 @@
         
         Width="1280" Height="800"
         WindowStartupLocation="CenterScreen">
+
     <Window.Styles>
         <Style Selector="Button.SidebarItem">
             <Setter Property="Background" Value="Transparent"/>
@@ -38,16 +40,20 @@
         <Style Selector="Button.SidebarItem:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="#10FFFFFF"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="RenderTransform" Value="translateX(4px)"/> </Style>
+            <Setter Property="RenderTransform" Value="translateX(4px)"/>
+        </Style>
 
         <Style Selector="Button.SidebarItem.Active">
-            <Setter Property="Background" Value="#15FF1F2F"/> <Setter Property="Foreground" Value="#FF1F2F"/>   </Style>
+            <Setter Property="Background" Value="#15FF1F2F"/>
+            <Setter Property="Foreground" Value="#FF1F2F"/>
+        </Style>
         <Style Selector="Button.SidebarItem.Active /template/ ContentPresenter">
             <Setter Property="Background" Value="#15FF1F2F"/>
             <Setter Property="Foreground" Value="#FF1F2F"/>
         </Style>
     </Window.Styles>
-   <Panel PointerPressed="OnRootPointerPressed" Background="Transparent">
+
+    <Panel PointerPressed="OnRootPointerPressed" Background="Transparent">
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintColor="#050505" TintOpacity="0.95" MaterialOpacity="0.8"/>
@@ -55,7 +61,7 @@
         </ExperimentalAcrylicBorder>
 
         <Grid ColumnDefinitions="240, *">
-<Border Grid.Column="0" Background="#05FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="20">
+            <Border Grid.Column="0" Background="#05FFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,1,0" Padding="20">
                 <Grid RowDefinitions="Auto, *, Auto">
                     
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" Margin="0,10,0,40">
@@ -147,15 +153,13 @@
 
                         <StackPanel Spacing="15">
                             <TextBlock Text="DANH SÁCH GAME" FontWeight="Bold" FontSize="16" Foreground="White"/>
+                            
                             <ItemsControl ItemsSource="{Binding Games}">
                                 <ItemsControl.Styles>
-                                    <Style Selector="ContentPresenter">
-                                        <Setter Property="ZIndex" Value="0"/>
-                                    </Style>
-                                    <Style Selector="ContentPresenter:pointerover">
-                                        <Setter Property="ZIndex" Value="100"/>
-                                    </Style>
+                                    <Style Selector="ContentPresenter"><Setter Property="ZIndex" Value="0"/></Style>
+                                    <Style Selector="ContentPresenter:pointerover"><Setter Property="ZIndex" Value="100"/></Style>
                                 </ItemsControl.Styles>
+                                
                                 <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel Margin="-6"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="models:GameInfo">
