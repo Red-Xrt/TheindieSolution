@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Linq;
 using Theindie.Models;
 
@@ -23,13 +24,27 @@ namespace Theindie.ViewModels
         [ObservableProperty]
         private string _pageTitle = "TRANG CHỦ";
 
-        // 👇 TRẠNG THÁI MỚI: Sidebar có đang mở rộng không?
         [ObservableProperty]
-        private bool _isPaneOpen = false; // Mặc định đóng (chỉ hiện icon)
+        private bool _isPaneOpen = false;
 
+        // 👇 MỚI: Biến kiểm tra danh sách có rỗng không (để hiện thông báo UI)
+        [ObservableProperty]
+        private bool _isEmptyList = false;
+
+        // 👇 MỚI: Thông báo hiển thị khi rỗng (Thay đổi tùy ngữ cảnh)
+        [ObservableProperty]
+        private string _emptyMessage = "";
+
+        [ObservableProperty]
+        private bool _isNotificationVisible = false;
+
+        [ObservableProperty]
+        private string _notificationMessage = "";
+
+        [ObservableProperty]
+        private string _notificationType = "Success";
         public MainWindowViewModel()
         {
-            // Database giả lập
             _allGames = new List<GameInfo>
             {
                 new GameInfo { Title = "Stardew Valley", IsInstalled = false, Tags = "Nông trại, RPG", Version = "v1.5.6", Size = "500 MB", UpdateDate = "Mới nhất", Description = "Bạn được thừa hưởng trang trại cũ của ông nội...", ImagePath = "/Assets/Icons/Logo.ico" },
@@ -40,6 +55,8 @@ namespace Theindie.ViewModels
             };
 
             Games = new ObservableCollection<GameInfo>(_allGames);
+            // Kiểm tra rỗng ngay khi khởi tạo
+            UpdateEmptyState();
         }
 
         partial void OnSearchTextChanged(string value) => ApplyFilter();
@@ -64,6 +81,39 @@ namespace Theindie.ViewModels
                 (CurrentPage != 1 || g.IsInstalled)
             );
             Games = new ObservableCollection<GameInfo>(filtered);
+
+            // 👇 Cập nhật trạng thái rỗng sau khi lọc
+            UpdateEmptyState();
+        }
+        public async void ShowToast(string message, string type = "Success")
+        {
+            NotificationMessage = message;
+            NotificationType = type;
+            IsNotificationVisible = true;
+
+            // Tự động tắt sau 3 giây
+            await Task.Delay(3000);
+            IsNotificationVisible = false;
+        }
+        private void UpdateEmptyState()
+        {
+            IsEmptyList = Games.Count == 0;
+
+            if (IsEmptyList)
+            {
+                if (!string.IsNullOrEmpty(SearchText))
+                {
+                    EmptyMessage = $"Không tìm thấy game nào có tên \"{SearchText}\"";
+                }
+                else if (CurrentPage == 1) // Tab Đã cài đặt
+                {
+                    EmptyMessage = "Bạn chưa cài đặt game nào cả.\nHãy quay lại Trang Chủ để tải nhé!";
+                }
+                else
+                {
+                    EmptyMessage = "Danh sách trống.";
+                }
+            }
         }
 
         public void RefreshList() => ApplyFilter();
@@ -74,7 +124,6 @@ namespace Theindie.ViewModels
             if (int.TryParse(pageIndex, out int index)) CurrentPage = index;
         }
 
-        // Lệnh Toggle thủ công (nếu cần nút Hamburger)
         [RelayCommand]
         public void TogglePane() => IsPaneOpen = !IsPaneOpen;
     }

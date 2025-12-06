@@ -8,14 +8,23 @@ using Theindie.Models;
 
 namespace Theindie.Views.Components
 {
+    // ENUM: Define the operation mode of the wizard
+    public enum WizardMode
+    {
+        Install,
+        Uninstall
+    }
+
     public partial class InstallationWizardView : UserControl
     {
         public event EventHandler<RoutedEventArgs>? CloseRequested;
         public event EventHandler<GameInfo>? GameInstalled;
+        public event EventHandler<GameInfo>? GameUninstalled; // New event for uninstallation
 
         private int _currentStep = 1;
+        private WizardMode _currentMode = WizardMode.Install; // Default mode
 
-        // Timer để chạy giả lập tiến trình
+        // Simulation Timer
         private DispatcherTimer? _simulationTimer;
         private int _progressValue = 0;
 
@@ -25,7 +34,34 @@ namespace Theindie.Views.Components
             UpdateUI();
         }
 
-        // --- 1. LOGIC CHỌN FOLDER ---
+        /// <summary>
+        /// Initialize the wizard in Installation mode.
+        /// </summary>
+        public void InitInstallMode(GameInfo game)
+        {
+            DataContext = game;
+            _currentMode = WizardMode.Install;
+            ResetWizard();
+        }
+
+        /// <summary>
+        /// Initialize the wizard in Uninstallation mode.
+        /// Starts directly at the processing step (Step 3).
+        /// </summary>
+        public void InitUninstallMode(GameInfo game)
+        {
+            DataContext = game;
+            _currentMode = WizardMode.Uninstall;
+            _currentMode = WizardMode.Uninstall;
+            if (ProgressBarFill != null)
+            {
+                ProgressBarFill.Width = 0;
+            }
+            _currentStep = 3;
+            UpdateUI();
+        }
+
+        // --- 1. FOLDER SELECTION LOGIC ---
         private async void BrowseButton_Click(object? sender, RoutedEventArgs e)
         {
             var topLevel = TopLevel.GetTopLevel(this);
@@ -33,27 +69,26 @@ namespace Theindie.Views.Components
 
             var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
-                Title = "Chọn thư mục game gốc",
+                Title = "Select Game Folder",
                 AllowMultiple = false
             });
 
             if (folders.Count > 0)
             {
                 TxtFolderPath.Text = folders[0].Path.LocalPath;
-                // Reset viền lỗi nếu có
                 TxtFolderPath.BorderBrush = new SolidColorBrush(Color.Parse("#333333"));
             }
         }
 
-        // --- 2. LOGIC ĐIỀU HƯỚNG WIZARD ---
+        // --- 2. WIZARD NAVIGATION LOGIC ---
         private void NextButton_Click(object? sender, RoutedEventArgs e)
         {
-            // Validate Step 2
-            if (_currentStep == 2)
+            // Validate Step 2 (Only for Install mode)
+            if (_currentStep == 2 && _currentMode == WizardMode.Install)
             {
                 if (string.IsNullOrWhiteSpace(TxtFolderPath.Text))
                 {
-                    TxtFolderPath.BorderBrush = Brushes.Red; // Báo lỗi chưa chọn folder
+                    TxtFolderPath.BorderBrush = Brushes.Red;
                     return;
                 }
                 TxtFolderPath.BorderBrush = new SolidColorBrush(Color.Parse("#333333"));
@@ -65,18 +100,24 @@ namespace Theindie.Views.Components
 
         private void CloseButton_Click(object? sender, RoutedEventArgs e)
         {
-            if (_currentStep == 3) return; // Đang chạy thì không cho đóng
+            if (_currentStep == 3) return; // Prevent closing while running
 
-            // Nếu đã xong (Step 4), báo ra ngoài là GameInstalled
+            // Finished Step (Step 4)
             if (_currentStep == 4)
             {
                 if (DataContext is GameInfo game)
                 {
-                    GameInstalled?.Invoke(this, game);
+                    if (_currentMode == WizardMode.Install)
+                    {
+                        GameInstalled?.Invoke(this, game);
+                    }
+                    else
+                    {
+                        GameUninstalled?.Invoke(this, game);
+                    }
                 }
             }
 
-            // Đóng Wizard và Reset
             CloseRequested?.Invoke(this, e);
             ResetWizard();
         }
@@ -86,7 +127,7 @@ namespace Theindie.Views.Components
             if (_currentStep > 1) { _currentStep--; UpdateUI(); }
         }
 
-        // --- 3. LOGIC CẬP NHẬT GIAO DIỆN & GIẢ LẬP ---
+        // --- 3. UI UPDATE & SIMULATION ---
         private void UpdateUI()
         {
             Step1_Confirm.IsVisible = false;
@@ -98,50 +139,61 @@ namespace Theindie.Views.Components
             Dot2.Classes.Remove("Active");
             Dot3.Classes.Remove("Active");
 
+            // Dynamic Text based on Mode
+            string processText = _currentMode == WizardMode.Install ? "ĐANG CÀI ĐẶT..." : "ĐANG GỠ CÀI ĐẶT...";
+            string successText = _currentMode == WizardMode.Install ? "HOÀN TẤT!" : "ĐÃ GỠ XONG!";
+            // Green for install, Red/Orange for uninstall (optional), keeping Green for success is fine mostly.
+
             switch (_currentStep)
             {
-                case 1: // Xác nhận
+                case 1: // Confirm (Install Only)
                     Step1_Confirm.IsVisible = true;
                     Dot1.Classes.Add("Active");
                     BtnBack.IsVisible = false;
                     BtnNext.IsVisible = true;
-
-                    // SỬA LỖI: Thay TxtNext.Text bằng BtnNext.Content
                     BtnNext.Content = "TIẾP TỤC";
-
                     BtnClose.IsVisible = true;
                     break;
 
-                case 2: // Chọn thư mục
+                case 2: // Folder Select (Install Only)
                     Step2_Folder.IsVisible = true;
                     Dot2.Classes.Add("Active");
                     BtnBack.IsVisible = true;
                     BtnNext.IsVisible = true;
-
-                    // SỬA LỖI: Thay TxtNext.Text bằng BtnNext.Content
                     BtnNext.Content = "CÀI ĐẶT";
-
                     BtnClose.IsVisible = true;
                     break;
 
-                case 3: // Đang chạy (Loading...)
+                case 3: // Processing (Both)
                     Step3_Installing.IsVisible = true;
-                    Dot3.Classes.Add("Active");
+                    // For Uninstall, we treat it as the final progress step
+                    if (_currentMode == WizardMode.Install) Dot3.Classes.Add("Active");
+                    else { /* Update dots logic if needed for uninstall, or hide dots */ }
+
                     BtnBack.IsVisible = false;
-                    BtnNext.IsVisible = false; // Ẩn nút Tiếp tục đi
+                    BtnNext.IsVisible = false;
                     BtnClose.IsVisible = false;
 
-                    // BẮT ĐẦU CHẠY GIẢ LẬP
+                    // Update Title dynamically
+                    TxtProcessTitle.Text = processText;
+
                     StartSimulation();
                     break;
 
-                case 4: // Thành công
+                case 4: // Success (Both)
                     Step4_Success.IsVisible = true;
                     Dot1.Classes.Add("Active"); Dot2.Classes.Add("Active"); Dot3.Classes.Add("Active");
+
                     BtnBack.IsVisible = false;
                     BtnNext.IsVisible = false;
-                    BtnPlay.IsVisible = true; // Hiện nút Chơi Ngay
+
+                    // Only show "Play Now" if installed
+                    BtnPlay.IsVisible = (_currentMode == WizardMode.Install);
+
                     BtnClose.IsVisible = true;
+
+                    // Update Success Text
+                    TxtSuccessTitle.Text = successText;
                     break;
             }
         }
@@ -151,40 +203,23 @@ namespace Theindie.Views.Components
             _progressValue = 0;
             ProgressBarFill.Width = 0;
             TxtPercent.Text = "0%";
-            TxtStatus.Text = "Đang kiểm tra thư mục...";
+            TxtStatus.Text = _currentMode == WizardMode.Install ? "Đang kiểm tra thư mục..." : "Đang tìm file rác...";
 
-            // Timer chạy mỗi 50ms
-            _simulationTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
+            _simulationTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(30) }; // Faster tick for uninstall maybe?
             _simulationTimer.Tick += (s, e) =>
             {
-                _progressValue += 2; // Tăng 2% mỗi lần tick
+                _progressValue += 2;
 
-                // Cập nhật Width cho thanh ProgressBar
-                // Giả sử Width max là khoảng 350px (hoặc binding width cha, nhưng hardcode logic UI tạm ở đây cho mượt)
-                // Vì ProgressBarFill nằm trong Border cha có Width cố định hoặc Stretch, 
-                // ta nên set Width theo % hoặc dùng Relative, nhưng ở đây ta set Width trực tiếp cho Border con.
-                // Lưu ý: Trong XAML mới, Border cha (container) có Height="6", Border con (ProgressBarFill) chạy bên trong.
-
-                // Để đơn giản và khớp với XAML: 
-                // XAML đang set Width="0". Ta sẽ tăng Width lên tối đa khoảng 400px (tùy grid cha).
-                // Cách an toàn hơn là set Width theo % tiến trình.
-
-                double maxWidth = 400; // Ước lượng width của container
+                double maxWidth = 400;
                 ProgressBarFill.Width = (_progressValue / 100.0) * maxWidth;
-
                 TxtPercent.Text = $"{_progressValue}%";
 
-                // Giả lập text trạng thái
-                if (_progressValue < 30) TxtStatus.Text = "Đang giải nén dữ liệu...";
-                else if (_progressValue < 70) TxtStatus.Text = "Copying files to destination...";
-                else if (_progressValue < 90) TxtStatus.Text = "Đang xác thực file...";
-                else TxtStatus.Text = "Hoàn tất cài đặt...";
+                // Update status text based on Mode
+                UpdateStatusText();
 
-                // Khi chạy xong
                 if (_progressValue >= 100)
                 {
                     _simulationTimer.Stop();
-                    // Chuyển sang bước 4 (Thành công)
                     _currentStep = 4;
                     UpdateUI();
                 }
@@ -192,13 +227,37 @@ namespace Theindie.Views.Components
             _simulationTimer.Start();
         }
 
+        private void UpdateStatusText()
+        {
+            if (_currentMode == WizardMode.Install)
+            {
+                if (_progressValue < 30) TxtStatus.Text = "Đang giải nén dữ liệu...";
+                else if (_progressValue < 70) TxtStatus.Text = "Copying files...";
+                else if (_progressValue < 90) TxtStatus.Text = "Đang xác thực file...";
+                else TxtStatus.Text = "Hoàn tất cài đặt...";
+            }
+            else // Uninstall Mode
+            {
+                if (_progressValue < 30) TxtStatus.Text = "Đang xóa dữ liệu...";
+                else if (_progressValue < 70) TxtStatus.Text = "Đang dọn dẹp Registry...";
+                else if (_progressValue < 90) TxtStatus.Text = "Khôi phục file gốc...";
+                else TxtStatus.Text = "Hoàn tất gỡ cài đặt...";
+            }
+        }
+
         private void ResetWizard()
         {
             _simulationTimer?.Stop();
             _currentStep = 1;
-            TxtFolderPath.Text = "";
-            TxtFolderPath.BorderBrush = new SolidColorBrush(Color.Parse("#333333"));
-            BtnPlay.IsVisible = false;
+            if (TxtFolderPath != null)
+            {
+                TxtFolderPath.Text = "";
+                TxtFolderPath.BorderBrush = new SolidColorBrush(Color.Parse("#333333"));
+            }
+            if (BtnPlay != null) BtnPlay.IsVisible = false;
+            if (ProgressBarFill != null) ProgressBarFill.Width = 0;
+            if (TxtPercent != null) TxtPercent.Text = "0%";
+            if (TxtStatus != null) TxtStatus.Text = "Đang chờ...";
             UpdateUI();
         }
     }

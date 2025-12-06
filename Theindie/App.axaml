@@ -66,7 +66,7 @@
             <Setter Property="Background" Value="{StaticResource RedGradient}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="24,12"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Effect">
@@ -83,8 +83,7 @@
         <Style Selector="Button.Primary:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="#FF3B49"/>
             <Setter Property="RenderTransform" Value="scale(1.02)"/>
-            <Setter Property="CornerRadius" Value="16"/>
-        </Style>
+            <Setter Property="CornerRadius" Value="8"/> </Style>
         
         <Style Selector="Button.Primary:pointerover">
             <Setter Property="Effect">
@@ -97,19 +96,22 @@
             <Setter Property="CornerRadius" Value="8"/>
         </Style>
 
-<Style Selector="Button.SidebarItem">
+        <Style Selector="Button.SidebarItem">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource TextGray}"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            
             <Setter Property="Padding" Value="0,14"/> 
-            
             <Setter Property="CornerRadius" Value="0"/> 
-            
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Transitions"><Transitions><BrushTransition Property="Foreground" Duration="0:0:0.2"/><BrushTransition Property="Background" Duration="0:0:0.2"/></Transitions></Setter>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Foreground" Duration="0:0:0.2"/>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
         </Style>
         <Style Selector="Button.SidebarItem PathIcon">
             <Setter Property="Foreground" Value="{StaticResource TextGray}"/>
@@ -127,15 +129,19 @@
         <Style Selector="Button.SidebarItem.Active"><Setter Property="Foreground" Value="White"/><Setter Property="FontWeight" Value="Bold"/></Style>
         <Style Selector="Button.SidebarItem.Active PathIcon"><Setter Property="Foreground" Value="{StaticResource PrimaryRed}"/></Style>
         <Style Selector="Button.SidebarItem.Active /template/ ContentPresenter">
-            <Setter Property="Background" Value="#15FF1F2F"/> <Setter Property="BorderBrush" Value="{StaticResource PrimaryRed}"/>
-            <Setter Property="BorderThickness" Value="3,0,0,0"/> </Style>
+            <Setter Property="Background" Value="#15FF1F2F"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryRed}"/>
+            <Setter Property="BorderThickness" Value="3,0,0,0"/> 
+        </Style>
 
         <Style Selector="Button.WindowControl"><Setter Property="Background" Value="Transparent"/><Setter Property="Width" Value="46"/><Setter Property="Height" Value="32"/><Setter Property="HorizontalContentAlignment" Value="Center"/><Setter Property="VerticalContentAlignment" Value="Center"/><Setter Property="Foreground" Value="#AAAAAA"/></Style>
         <Style Selector="Button.WindowControl:pointerover /template/ ContentPresenter"><Setter Property="Background" Value="#20FFFFFF"/><Setter Property="Foreground" Value="White"/></Style>
         <Style Selector="Button.WindowControl.Close:pointerover /template/ ContentPresenter"><Setter Property="Background" Value="#E81123"/><Setter Property="Foreground" Value="White"/></Style>
+        
         <Style Selector="ScrollBar:vertical"><Setter Property="Width" Value="4"/><Setter Property="Background" Value="Transparent"/></Style>
         <Style Selector="ScrollBar /template/ Thumb"><Setter Property="Background" Value="#333"/><Setter Property="CornerRadius" Value="2"/></Style>
         <Style Selector="ScrollBar /template/ Thumb:pointerover"><Setter Property="Background" Value="{StaticResource PrimaryRed}"/></Style>
+        
         <Style Selector="TextBox.SearchInput"><Setter Property="Background" Value="#10FFFFFF"/><Setter Property="BorderBrush" Value="{StaticResource GlassBorder}"/><Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="20"/><Setter Property="Padding" Value="12,8"/><Setter Property="Foreground" Value="White"/><Setter Property="CaretBrush" Value="{StaticResource PrimaryRed}"/><Setter Property="SelectionBrush" Value="{StaticResource PrimaryRed}"/><Setter Property="VerticalContentAlignment" Value="Center"/></Style>
         <Style Selector="TextBox.SearchInput:focus /template/ Border#PART_BorderElement"><Setter Property="Background" Value="#15FFFFFF"/><Setter Property="BorderBrush" Value="{StaticResource PrimaryRed}"/></Style>
     </Application.Styles>

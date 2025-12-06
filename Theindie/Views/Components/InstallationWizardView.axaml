@@ -57,13 +57,18 @@
                         </StackPanel>
                     </Grid>
 
-                    <Grid Name="Step3_Installing" Classes="WizardStep" IsVisible="False">
+                   <Grid Name="Step3_Installing" Classes="WizardStep" IsVisible="False">
                         <StackPanel VerticalAlignment="Center" Spacing="40" Margin="50,0">
-                            <TextBlock Text="ĐANG CÀI ĐẶT..." HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock Name="TxtProcessTitle" Text="ĐANG CÀI ĐẶT..." HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                            
                             <StackPanel Spacing="10">
                                 <Border Height="6" Background="#333" CornerRadius="3" ClipToBounds="True">
                                     <Border Name="ProgressBarFill" Width="0" HorizontalAlignment="Left" Background="{StaticResource PrimaryRed}" CornerRadius="3">
-                                        <Border.Transitions><Transitions><DoubleTransition Property="Width" Duration="0:0:0.2"/></Transitions></Border.Transitions>
+                                        <Border.Transitions>
+                                            <Transitions>
+                                                <DoubleTransition Property="Width" Duration="0:0:0.2"/>
+                                            </Transitions>
+                                        </Border.Transitions>
                                     </Border>
                                 </Border>
                                 <Grid ColumnDefinitions="*,*">
@@ -77,7 +82,7 @@
                     <Grid Name="Step4_Success" Classes="WizardStep" IsVisible="False">
                         <StackPanel VerticalAlignment="Center" Spacing="20">
                             <TextBlock Text="✔" FontSize="60" Foreground="#4ade80" HorizontalAlignment="Center"/>
-                            <TextBlock Text="HOÀN TẤT!" HorizontalAlignment="Center" FontSize="28" FontWeight="Black" Foreground="White"/>
+                            <TextBlock Name="TxtSuccessTitle" Text="HOÀN TẤT!" HorizontalAlignment="Center" FontSize="28" FontWeight="Black" Foreground="White"/>
                         </StackPanel>
                     </Grid>
                 </Panel>

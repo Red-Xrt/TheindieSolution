@@ -107,50 +107,60 @@ namespace Theindie.Views
             if (DetailOverlay != null) DetailOverlay.IsVisible = false;
         }
 
-
-        // --- 3. QUY TRÌNH CÀI ĐẶT (WIZARD & LIFECYCLE) ---
-
-        // Mở Wizard và Đăng ký sự kiện
+        // 3. QUY TRÌNH CÀI ĐẶT & GỠ CÀI ĐẶT (Updated)
+        // Mở Wizard Install
         private void ShowInstall_Wizard(object? sender, RoutedEventArgs e)
         {
             if (InstallWizard != null && DetailOverlay.DataContext is GameInfo info)
             {
-                InstallWizard.DataContext = info;
                 InstallWizard.IsVisible = true;
 
-                // Quan trọng: Lắng nghe sự kiện cài xong (Xóa cũ trước để tránh trùng lặp)
+                // Initialize in Install Mode
+                InstallWizard.InitInstallMode(info);
+
+                // Unsubscribe old events to prevent memory leaks/duplicate calls
                 InstallWizard.GameInstalled -= OnGameInstalled;
+                InstallWizard.GameUninstalled -= OnGameUninstalled;
+
+                // Subscribe new
                 InstallWizard.GameInstalled += OnGameInstalled;
             }
         }
 
-        // Đóng Wizard
-        private void HideInstall_Wizard(object? sender, RoutedEventArgs e)
+        // KHI BẤM NÚT ĐỒNG Ý GỠ Ở POPUP CONFIRM (Update logic này)
+        private void OnUninstallRequested(object? sender, RoutedEventArgs e)
         {
-            if (InstallWizard != null) InstallWizard.IsVisible = false;
+            if (InstallWizard != null && DetailOverlay.DataContext is GameInfo info)
+            {
+                InstallWizard.IsVisible = true;
+
+                // Initialize in Uninstall Mode
+                InstallWizard.InitUninstallMode(info);
+
+                InstallWizard.GameInstalled -= OnGameInstalled;
+                InstallWizard.GameUninstalled -= OnGameUninstalled;
+
+                InstallWizard.GameUninstalled += OnGameUninstalled;
+            }
         }
 
-        // KHI CÀI ĐẶT THÀNH CÔNG -> Cập nhật trạng thái
+        // Logic xử lý sau khi Wizard chạy xong (Update status ViewModel)
         private void OnGameInstalled(object? sender, GameInfo game)
         {
-            // Set trạng thái -> ĐÃ CÀI
             game.IsInstalled = true;
-
-            // Yêu cầu ViewModel cập nhật danh sách
             if (DataContext is MainWindowViewModel vm) vm.RefreshList();
         }
 
-        // KHI BẤM NÚT GỠ VIỆT HÓA -> Cập nhật trạng thái
-        private void OnUninstallRequested(object? sender, RoutedEventArgs e)
+        private void OnGameUninstalled(object? sender, GameInfo game)
         {
-            if (DetailOverlay.DataContext is GameInfo game)
-            {
-                // Set trạng thái -> CHƯA CÀI
-                game.IsInstalled = false;
+            game.IsInstalled = false;
+            if (DataContext is MainWindowViewModel vm) vm.RefreshList();
+        }
 
-                // Cập nhật danh sách
-                if (DataContext is MainWindowViewModel vm) vm.RefreshList();
-            }
+        // Đóng Wizard (Giữ nguyên)
+        private void HideInstall_Wizard(object? sender, RoutedEventArgs e)
+        {
+            if (InstallWizard != null) InstallWizard.IsVisible = false;
         }
     }
 }
