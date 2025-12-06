@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:models="using:Theindie.Models"
              x:DataType="models:GameInfo"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
              x:Class="Theindie.Views.Components.GameDetailView"
              RenderTransformOrigin="50%,50%"> <UserControl.RenderTransform>
         <TransformGroup>
@@ -56,7 +57,7 @@
 
     <Grid Background="{StaticResource DeepBackground}">
         <Panel>
-            <Image Source="{Binding ImagePath, Converter={StaticResource BitmapConverter}}" Stretch="UniformToFill" Opacity="0.4"><Image.Effect><BlurEffect Radius="80"/></Image.Effect></Image>
+            <Image asyncImageLoader:ImageLoader.Source="{Binding ImagePath}" Stretch="UniformToFill"/>
             <Border><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0" Color="#90050505"/><GradientStop Offset="1" Color="#050505"/></LinearGradientBrush></Border.Background></Border>
         </Panel>
 
